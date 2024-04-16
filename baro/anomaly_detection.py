@@ -20,8 +20,6 @@ def nsigma(data, k=3, startsfrom=100):
     return anomalies
 
 
-
-
 def bocpd(data):
     # TODO: Implement Bayesian Online Change Point Detection
     raise NotImplementedError
