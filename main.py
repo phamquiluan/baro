@@ -53,10 +53,10 @@ data = data.rename(
     }
 )
 
-anomalies = load_json("data/fse-ob/cartservice_cpu/1/naive_bocpd.json")
-anomalies = [i[0] for i in anomalies]
+# anomalies = load_json("data/fse-ob/cartservice_cpu/1/naive_bocpd.json")
+# anomalies = [i[0] for i in anomalies]
 
-out = robust_scorer(data, inject_time, dataset="fse-ob", anomalies=anomalies)
+out = robust_scorer(data, inject_time, dataset="fse-ob")
 root_causes = out.get("ranks")
 
 
