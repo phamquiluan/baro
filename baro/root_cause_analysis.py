@@ -41,7 +41,7 @@ def nsigma(data, inject_time=None, dataset=None, num_loop=None, sli=None, anomal
     }
 
 
-def robust_scaler(
+def robust_scorer(
     data, inject_time=None, dataset=None, num_loop=None, sli=None, anomalies=None, **kwargs
 ):
     if anomalies is None:
