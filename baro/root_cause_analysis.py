@@ -5,6 +5,10 @@ def drop_constant(df: pd.DataFrame):
     return df.loc[:, (df != df.iloc[0]).any()]
 
 
+def drop_near_constant(df: pd.DataFrame, threshold: float = 0.1):
+    return df.loc[:, (df != df.iloc[0]).mean() > threshold]
+
+
 def drop_time(df: pd.DataFrame):
     if "time" in df:
         df = df.drop(columns=["time"])
@@ -25,8 +29,6 @@ def convert_mem_mb(df: pd.DataFrame):
         return x
 
     return df.apply(update_mem)
-
-
 
 
 def preprocess(data, dataset=None, dk_select_useful=False):
