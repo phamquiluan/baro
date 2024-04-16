@@ -1,5 +1,18 @@
 
 
+def preprocess(data, dataset=None, dk_select_useful=False):
+    data = drop_constant(drop_time(data))
+    data = convert_mem_mb(data)
+
+    if dk_select_useful is True:
+        data = drop_extra(data)
+        data = drop_near_constant(data)
+        data = data[select_useful_cols(data)]
+    return data
+
+
+
+
 
 def nsigma(data, inject_time=None, dataset=None, num_loop=None, sli=None, anomalies=None, **kwargs):
     if anomalies is None:
