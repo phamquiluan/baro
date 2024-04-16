@@ -2,3 +2,4 @@
 
 - [ ] Work in progress
 
+- python3.12
