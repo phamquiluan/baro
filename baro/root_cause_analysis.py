@@ -18,6 +18,30 @@ def drop_time(df: pd.DataFrame):
         df = df.drop(columns=["timestamp"])
     return df
 
+
+def select_useful_cols(data):
+    selected_cols = []
+    for c in data.columns:
+        # keep time
+        if "time" in c:
+            selected_cols.append(c)
+
+        # cpu
+        if c.endswith("_cpu") and data[c].std() > 1:
+            selected_cols.append(c)
+
+        # mem
+        if c.endswith("_mem") and data[c].std() > 1:
+            selected_cols.append(c)
+
+        # latency
+        # if ("lat50" in c or "latency" in c) and (data[c] * 1000).std() > 10:
+        if "lat50" in c and (data[c] * 1000).std() > 10:
+            selected_cols.append(c)
+    return selected_cols
+
+
+
 def drop_extra(df: pd.DataFrame):
     if "time.1" in df:
         df = df.drop(columns=["time.1"])
@@ -120,8 +144,6 @@ def robust_scorer(
         normal_df = data.head(anomalies[0])
         # anomal_df is the rest
         anomal_df = data.tail(len(data) - anomalies[0])
-
-    # print(f"{len(normal_df)=} {len(anomal_df)=}")
 
     normal_df = preprocess(
         data=normal_df, dataset=dataset, dk_select_useful=kwargs.get("dk_select_useful", False)
