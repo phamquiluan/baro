@@ -15,6 +15,20 @@ def drop_time(df: pd.DataFrame):
     return df
 
 
+def convert_mem_mb(df: pd.DataFrame):
+    # Convert memory to MBs
+    def update_mem(x):
+        if not x.name.endswith("_mem"):
+            return x
+        x /= 1e6
+        # x = x.astype(int)
+        return x
+
+    return df.apply(update_mem)
+
+
+
+
 def preprocess(data, dataset=None, dk_select_useful=False):
     data = drop_constant(drop_time(data))
     data = convert_mem_mb(data)
