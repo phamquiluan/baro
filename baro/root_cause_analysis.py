@@ -1,3 +1,4 @@
+import pandas as pd
 
 
 def drop_constant(df: pd.DataFrame):
