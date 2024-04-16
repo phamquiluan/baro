@@ -7,7 +7,7 @@ requires = [
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "baro"
+name = "fse-baro"
 description = "BARO: Robust Root Cause Analysis for Microservices via Multivariate Bayesian Online Change Point Detection"
 authors = [{name = "Luan Pham", email = "phamquiluan@gmail.com"}]
 license = {file = "LICENSE"}
@@ -26,7 +26,8 @@ content-type = "text/markdown"
 [tool.setuptools]
 include-package-data = true
 
-[tool.setuptools.package-data]
+[tool.setuptools.package-dir]
+baro = "baro"
 
 [tool.setuptools.packages.find]
 namespaces = false
