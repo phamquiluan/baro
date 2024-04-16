@@ -18,6 +18,29 @@ def drop_time(df: pd.DataFrame):
         df = df.drop(columns=["timestamp"])
     return df
 
+def drop_extra(df: pd.DataFrame):
+    if "time.1" in df:
+        df = df.drop(columns=["time.1"])
+
+    # remove cols has "frontend-external" in name
+    # remove cols start with "main_" or "PassthroughCluster_", etc.
+    for col in df.columns:
+        if (
+            "frontend-external" in col
+            or col.startswith("main_")
+            or col.startswith("PassthroughCluster_")
+            or col.startswith("redis_")
+            or col.startswith("rabbitmq")
+            or col.startswith("queue")
+            or col.startswith("session")
+            or col.startswith("istio-proxy")
+        ):
+            df = df.drop(columns=[col])
+
+    return df
+
+
+
 
 def convert_mem_mb(df: pd.DataFrame):
     # Convert memory to MBs
