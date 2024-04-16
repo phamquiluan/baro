@@ -6,7 +6,9 @@ TBD
 
 ## Installation
 
-TBD
+```
+pip install -e .
+```
 
 ## How-to-use
 
