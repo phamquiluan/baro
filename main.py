@@ -15,7 +15,7 @@ warnings.filterwarnings("ignore")
 import numpy as np
 import pandas as pd
 
-from baro.root_cause_analysis import robust_scorer
+from baro.root_cause_analysis import preprocess, robust_scorer
 
 
 def load_json(p):
