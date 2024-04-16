@@ -1,5 +1,9 @@
 
 
+def drop_constant(df: pd.DataFrame):
+    return df.loc[:, (df != df.iloc[0]).any()]
+
+
 def drop_time(df: pd.DataFrame):
     if "time" in df:
         df = df.drop(columns=["time"])
