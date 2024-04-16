@@ -1,5 +1,15 @@
 
 
+def drop_time(df: pd.DataFrame):
+    if "time" in df:
+        df = df.drop(columns=["time"])
+    if "Time" in df:
+        df = df.drop(columns=["Time"])
+    if "timestamp" in df:
+        df = df.drop(columns=["timestamp"])
+    return df
+
+
 def preprocess(data, dataset=None, dk_select_useful=False):
     data = drop_constant(drop_time(data))
     data = convert_mem_mb(data)
