@@ -12,7 +12,7 @@ TBD
 
 TBD
 
-## Download paper
+## Download Paper
 
 TBD
 
