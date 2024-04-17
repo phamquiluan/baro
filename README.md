@@ -46,4 +46,12 @@ TBD
 
 ## Citation
 
-TBD
+```
+@inproceedings{pham2024baro,
+  title={BARO: Robust Root Cause Analysis for Microservices via Multivariate Bayesian Online Change Point Detection},
+  author={Luan Pham, Huong Ha, and Hongyu Zhang},
+  booktitle={Proceedings of the 32nd ACM Symposium on the Foundations of Software Engineering (FSE'24)},
+  year={2024},
+  organization={ACM}
+}
+```
