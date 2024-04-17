@@ -3,7 +3,14 @@
 
 # WORK IN PROGRESSS
 
-TBD
+TODO:
+
+- [ ] reproduce RobustScorer
+- [ ] reproduce BOCPD
+- [ ] make the API
+- [ ] restructure + lint code
+- [ ] better readme
+- [ ] make a Helm chart
 
 ## Installation
 
