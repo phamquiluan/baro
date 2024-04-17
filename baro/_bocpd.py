@@ -6,6 +6,7 @@ import numpy as np
 import scipy.stats as ss
 from itertools import islice
 from numpy.linalg import inv
+from functools import partial
 
 
 class BaseLikelihood(ABC):
@@ -178,6 +179,8 @@ def constant_hazard(lam, r):
         r - R matrix
     """
     return 1 / lam * np.ones(r.shape)
+
+hazard_function = partial(constant_hazard, 250)
 
 
 def online_changepoint_detection(data, hazard_function, log_likelihood_class):
