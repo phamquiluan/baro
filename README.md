@@ -22,7 +22,15 @@ pip install fse-baro
 
 ## How-to-use
 
-TBD
+```python
+from baro import BARO
+
+m = BARO()
+
+anomalies = m.detect_anomalies(data)
+root_causes = m.rca(data, anomalies=anomalies)
+print(root_causes)
+```
 
 ## Download Paper
 
