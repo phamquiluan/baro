@@ -20,9 +20,33 @@ def nsigma(data, k=3, startsfrom=100):
     return anomalies
 
 
+def find_anomalies(data, threshold=0.01):
+    anomalies = []
+    for i in range(1, len(data)):
+        if data[i] > threshold:
+            anomalies.append(i)
+
+    # re-try if threshold doesn't work
+    if len(anomalies) == 0:
+        head = 5
+        data = data[head:]
+        anomalies = [np.argmax(data) + head]
+
+    # merge continuous anomalies if the distance are shorter than 5 steps
+    merged_anomalies = [] if len(anomalies) == 0 else [anomalies[0]]
+    for i in range(1, len(anomalies)):
+        if anomalies[i] - anomalies[i-1] > 5:
+            merged_anomalies.append(anomalies[i])
+    
+    return merged_anomalies, anomalies
+
+
 def bocpd(data):
-    # TODO: Implement Bayesian Online Change Point Detection
-    raise NotImplementedError
+    from functools import partial
+    from baro._bocpd import online_changepoint_detection, constant_hazard
+    R, maxes = online_changepoint_detection(
+        data, hazard_function, online_ll.StudentT(alpha=0.1, beta=.01, kappa=1, mu=0)
+    )
 
 def anomaly_detector(data, method="nsigma"):
     # assert data is dataframe
