@@ -1,11 +1,19 @@
 # The code is copied and developed from 
 # https://github.com/hildensia/bayesian_changepoint_detection/tree/master/bayesian_changepoint_detection
+import numpy as np
 
+def constant_hazard(lam, r):
+    """
+    Hazard function for bayesian online learning
+    Arguments:
+        lam - inital prob
+        r - R matrix
+    """
+    return 1 / lam * np.ones(r.shape)
+
+    
 def online_changepoint_detection(data, hazard_function, log_likelihood_class):
     """
-    Use online bayesian changepoint detection
-    https://scientya.com/bayesian-online-change-point-detection-an-intuitive-understanding-b2d2b9dc165b
-
     Parameters:
     data    -- the time series data
 
