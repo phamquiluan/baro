@@ -49,7 +49,7 @@ def find_anomalies(data, time_col=None,threshold=0.01):
 def bocpd(data):
     from functools import partial
     from baro._bocpd import online_changepoint_detection, constant_hazard, MultivariateT
-
+    data = data.copy()
     # "    data = pd.read_csv(data_path)   \n",
     # "    selected_cols = [c for c in data.columns if \"latency-50\" in c]\n",
     # "    data = data[selected_cols]\n",
