@@ -1,3 +1,6 @@
+import requests
+
+from tqdm import tqdm
 import pandas as pd
 import matplotlib.pyplot as plt
 
@@ -53,3 +56,31 @@ def visualize_metrics(data: pd.DataFrame, filename=None, figsize=None):
 
     # close the figure
     plt.close(fig)
+
+
+def download_data(remote_url=None, local_path=None):
+    """Download sample metrics data""" 
+    if remote_url is None:
+        remote_url = "https://github.com/phamquiluan/baro/releases/download/0.0.4/simple_data.csv"
+    if local_path is None:
+        local_path = "data.csv"
+
+    response = requests.get(remote_url, stream=True)
+    total_size_in_bytes = int(response.headers.get("content-length", 0))
+    block_size = 1024  # 1 Kibibyte
+
+    progress_bar = tqdm(
+        desc=f"Downloading {local_path}..",
+        total=total_size_in_bytes,
+        unit="iB",
+        unit_scale=True,
+    )
+
+    with open(local_path, "wb") as ref:
+        for data in response.iter_content(block_size):
+            progress_bar.update(len(data))
+            ref.write(data)
+
+    progress_bar.close()
+    if total_size_in_bytes != 0 and progress_bar.n != total_size_in_bytes:
+        print("ERROR, something went wrong")
