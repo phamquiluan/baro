@@ -1,6 +1,7 @@
 import pandas as pd
 from sklearn.preprocessing import RobustScaler, StandardScaler
 
+from .utility import drop_time
 
 def drop_constant(df: pd.DataFrame):
     return df.loc[:, (df != df.iloc[0]).any()]
@@ -8,16 +9,6 @@ def drop_constant(df: pd.DataFrame):
 
 def drop_near_constant(df: pd.DataFrame, threshold: float = 0.1):
     return df.loc[:, (df != df.iloc[0]).mean() > threshold]
-
-
-def drop_time(df: pd.DataFrame):
-    if "time" in df:
-        df = df.drop(columns=["time"])
-    if "Time" in df:
-        df = df.drop(columns=["Time"])
-    if "timestamp" in df:
-        df = df.drop(columns=["timestamp"])
-    return df
 
 
 def select_useful_cols(data):
