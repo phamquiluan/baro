@@ -1,3 +1,15 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+
+
+def drop_time(df: pd.DataFrame):
+    if "time" in df:
+        df = df.drop(columns=["time"])
+    if "Time" in df:
+        df = df.drop(columns=["Time"])
+    if "timestamp" in df:
+        df = df.drop(columns=["timestamp"])
+    return df
 
 
 def visualize_metrics(data: pd.DataFrame, filename=None, figsize=None):
