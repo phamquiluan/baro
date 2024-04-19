@@ -4,6 +4,13 @@ from tqdm import tqdm
 import pandas as pd
 import matplotlib.pyplot as plt
 
+def drop_constant(df: pd.DataFrame):
+    return df.loc[:, (df != df.iloc[0]).any()]
+
+
+def drop_near_constant(df: pd.DataFrame, threshold: float = 0.1):
+    return df.loc[:, (df != df.iloc[0]).mean() > threshold]
+
 
 def drop_time(df: pd.DataFrame):
     if "time" in df:
