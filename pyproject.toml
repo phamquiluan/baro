@@ -16,6 +16,9 @@ dependencies = [
     "pandas",
     "scikit-learn",
     "pytest",
+    "tqdm",
+    "requests",
+    "matplotlib",
 ]
 dynamic = ["version"]
 
