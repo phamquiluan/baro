@@ -4,6 +4,12 @@ from tqdm import tqdm
 import pandas as pd
 import matplotlib.pyplot as plt
 
+def load_json(filename: str):
+    with open(filename) as f:
+        data = json.load(f)
+    return data
+              
+              
 def drop_constant(df: pd.DataFrame):
     return df.loc[:, (df != df.iloc[0]).any()]
 
