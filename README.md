@@ -17,9 +17,9 @@ In the progress of preparing the Artifact submission:
 
 TODO:
 
-- [ ] make wiki docs
 - [ ] reproduce RobustScorer
 - [ ] reproduce BOCPD
+- [ ] make docs directly on readme, show available AD + RCA methods + tutorials
 - [ ] make the API
 - [ ] restructure + lint code
 - [ ] better readme
