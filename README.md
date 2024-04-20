@@ -35,6 +35,9 @@ pip install fse-baro
 
 ## How-to-use
 
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1znckFNPny9zU0Rlc9_Q99E6h3hsJq764?usp=sharing)
+
+
 ```python
 from baro import BARO
 
