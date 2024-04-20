@@ -17,6 +17,7 @@ In the progress of preparing the Artifact submission:
 
 TODO:
 
+- [ ] make wiki docs
 - [ ] reproduce RobustScorer
 - [ ] reproduce BOCPD
 - [ ] make the API
