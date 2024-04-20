@@ -26,6 +26,11 @@ dynamic = ["version"]
 file = "README.md"
 content-type = "text/markdown"
 
+[project.urls]
+Homepage = "https://github.com/phamquiluan/baro/"
+Issues = "https://github.com/phamquiluan/baro/issues"
+
+
 [tool.setuptools]
 include-package-data = true
 
