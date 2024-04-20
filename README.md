@@ -17,7 +17,7 @@ In the progress of preparing the Artifact submission:
 
 TODO:
 
-- [ ] reproduce RobustScorer
+- [x] reproduce RobustScorer
 - [ ] reproduce BOCPD
 - [ ] make docs directly on readme, show available AD + RCA methods + tutorials
 - [ ] make the API
