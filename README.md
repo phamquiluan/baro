@@ -20,17 +20,17 @@ TODO:
 
 ## Installation
 
-Build from source
-
-```bash
-git clone https://github.com/phamquiluan/baro.git && cd baro
-pip install -e .
-```
-
 Install from [PyPI](https://pypi.org/project/fse-baro)
 
 ```bash
 pip install fse-baro
+```
+
+Or, build from source
+
+```bash
+git clone https://github.com/phamquiluan/baro.git && cd baro
+pip install -e .
 ```
 
 ## How-to-use
