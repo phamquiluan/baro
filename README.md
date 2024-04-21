@@ -21,6 +21,7 @@ TODO:
 - [ ] reproduce BOCPD
 - [ ] make docs directly on readme, show available AD + RCA methods + tutorials
 - [ ] make the API
+- [ ] add univaritebocpd
 - [ ] add RobustBOCPD + add tuts
 - [ ] restructure + lint code
 - [ ] better readme
