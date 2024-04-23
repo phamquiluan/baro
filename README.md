@@ -4,17 +4,6 @@
 [![Build and test](https://github.com/phamquiluan/baro/actions/workflows/build-and-test.yml/badge.svg?branch=main)](https://github.com/phamquiluan/baro/actions/workflows/build-and-test.yml)
 
 
-In the progress of preparing the Artifact submission:
-- Deadline 30/4
-- https://2024.esec-fse.org/track/fse-2024-artifacts#submission-for-replicated-and-reproduced-badges
-- Can apply for all three badges: Available, Function, Reusable
-
-**Functional: The artifacts associated with the research are found to be documented, consistent, complete, exercisable, and include appropriate evidence of verification and validation.	
-**
-
-**Reusable: Functional + the artifacts associated with the paper are of a quality that significantly exceeds minimal functionality. They are very carefully documented and well-structured to the extent that reuse and repurposing is facilitated. In particular, norms and standards of the research community for artifacts of this type are strictly adhered to.	
-**
-
 TODO:
 
 - [ ] make the end-to-end API
