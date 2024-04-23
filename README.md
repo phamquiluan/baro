@@ -19,6 +19,8 @@ git clone https://github.com/phamquiluan/baro.git && cd baro
 pip install -e .
 ```
 
+More details are in [INSTALLATION.md](INSTALLATION.md).
+
 ## How-to-use
 
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1znckFNPny9zU0Rlc9_Q99E6h3hsJq764?usp=sharing)
@@ -40,7 +42,7 @@ TBD
 
 ## Download Datasets
 
-Our datasets are publicly available in Zenodo repository with the following information
+Our datasets are publicly available in Zenodo repository with the following information:
 
 - Dataset DOI: [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.11046533.svg)](https://doi.org/10.5281/zenodo.11046533)
 - Dataset URL: https://zenodo.org/records/11046533
