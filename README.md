@@ -23,7 +23,7 @@ git clone https://github.com/phamquiluan/baro.git && cd baro
 pip install -e .
 ```
 
-More details are in [INSTALLATION.md](INSTALLATION.md).
+More details are in [INSTALLATION.md](./INSTALLATION.md).
 
 ## How-to-use
 
