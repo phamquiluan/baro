@@ -4,6 +4,7 @@ from os import path
 import numpy as np
 import pandas as pd
 import pytest
+import tempfile
 
 from baro.anomaly_detection import nsigma, bocpd
 from baro.root_cause_analysis import robust_scorer
@@ -41,7 +42,7 @@ def test_bocpd_basic():
     assert abs(anomalies[0] - 100) < 10, anomalies
 
 def test_baro():
-    local_path = "tmp_data.csv"
+    local_path = tempfile.NamedTemporaryFile().name
     download_data(local_path=local_path)
     df = pd.read_csv(local_path)
     df = df[60:660].reset_index(drop=True)
