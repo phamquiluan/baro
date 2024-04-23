@@ -1,6 +1,6 @@
 # Installation
 
-We assume the users already satisfy the [REQUIREMENTS.md](REQUIREMENTS.md). Then, users can install BARO from PyPI ([Section 2](https://github.com/phamquiluan/baro/blob/main/INSTALL.md#2-install-baro-from-pypi)) or build BARO from source (Section 3).
+We assume the users already satisfy the [REQUIREMENTS.md](REQUIREMENTS.md). Then, users can install BARO from PyPI ([Section 2](https://github.com/phamquiluan/baro/blob/main/INSTALL.md#2-install-baro-from-pypi)) or build BARO from source ([Section 3](https://github.com/phamquiluan/baro/blob/main/INSTALL.md#3-install-baro-from-source)).
 
 
 ## 1. Install Python3.10
