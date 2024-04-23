@@ -1,6 +1,6 @@
 # Installation
 
-We assume the users already satisfy the [REQUIREMENTS.md](REQUIREMENTS.md). Then, users can install BARO from [PyPI](https://pypi.org/project/fse-baro) or build BARO from source.
+We assume the users already satisfy the [REQUIREMENTS.md](REQUIREMENTS.md). Then, users can install BARO from PyPI ([Section 2](https://github.com/phamquiluan/baro/blob/main/INSTALL.md#2-install-baro-from-pypi)) or build BARO from source (Section 3).
 
 
 ## 1. Install Python3.10
