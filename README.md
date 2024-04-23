@@ -17,9 +17,6 @@ In the progress of preparing the Artifact submission:
 
 TODO:
 
-- [x] reproduce RobustScorer
-- [x] upload dataset to share
-- [ ] make docs directly on readme, show available AD + RCA methods + tutorials
 - [ ] make the API
 - [ ] add [univaritebocpd](https://github.com/phamquiluan/BOCPD/commit/975eef0abef32e8ab06cf48908d0a6325234de8e)
 - [ ] add RobustBOCPD + add tuts
@@ -69,6 +66,9 @@ Our datasets are publicly available in Zenodo repository with the following info
 - Dataset DOI: [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.11046533.svg)](https://doi.org/10.5281/zenodo.11046533)
 - Dataset URL: https://zenodo.org/records/11046533
 
+## Reproducibility
+
+Check the Jupyter Notebook at [tutorials/reproducibility.ipynb](https://github.com/phamquiluan/baro/blob/main/tutorials/reproducibility.ipynb) to reproduce the performance of BARO.
 
 ## Citation
 
