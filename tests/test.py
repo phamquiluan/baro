@@ -6,6 +6,9 @@ import pandas as pd
 import pytest
 
 from baro.anomaly_detection import nsigma, bocpd
+from baro.root_cause_analysis import robust_scorer
+from baro.utility import visualize_metrics, download_data, drop_constant
+
 
 def test_nsigma_basic():
     """Test nsigma basic."""
@@ -36,3 +39,26 @@ def test_bocpd_basic():
     
     anomalies = bocpd(df)
     assert abs(anomalies[0] - 100) < 10, anomalies
+
+def test_baro():
+    local_path = "tmp_data.csv"
+    download_data(local_path=local_path)
+    df = pd.read_csv(local_path)
+    df = df[60:660].reset_index(drop=True)
+
+    # select latency and error rate
+    time_col = pd.Series(range(df.shape[0])) # df["time"]
+    selected_cols = [c for c in df.columns if "latency-50" in c or "error" in c]
+    selected_df = drop_constant(df[selected_cols])
+    selected_df.insert(0, "time", time_col)
+    
+    # anomaly detection
+    anomalies = bocpd(selected_df)
+    
+    # root cause analysis
+    ranks = robust_scorer(df, anomalies=anomalies)["ranks"]
+    
+    # check if cartservice is in the top 5
+    service_ranks = [r.split("_")[0] for r in ranks]
+    assert "cartservice" in service_ranks[:5]
+    
