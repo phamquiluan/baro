@@ -64,7 +64,7 @@ TBD
 
 ## Download Datasets
 
-We uploaded our datasets to Zenodo with the following information
+Our datasets are publicly available in Zenodo repository with the following information
 
 - Dataset DOI: [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.11046533.svg)](https://doi.org/10.5281/zenodo.11046533)
 - Dataset URL: https://zenodo.org/records/11046533
