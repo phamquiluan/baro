@@ -1,6 +1,6 @@
 # Installation
 
-We assume the users already satisfy the [REQUIREMENTS.md](REQUIREMENTS.md) and have Python 3.10 installed ([Section 1](https://github.com/phamquiluan/baro/blob/main/INSTALL.md#1-install-python310)). Then, users can install BARO from PyPI ([Section 2](https://github.com/phamquiluan/baro/blob/main/INSTALL.md#2-install-baro-from-pypi)) or build BARO from source ([Section 3](https://github.com/phamquiluan/baro/blob/main/INSTALL.md#3-install-baro-from-source)).
+We assume the users already satisfy the [REQUIREMENTS.md](REQUIREMENTS.md) and have Python 3.10 installed ([Section 1](https://github.com/phamquiluan/baro/blob/main/INSTALL.md#1-install-python310)). Then, users can install BARO from PyPI ([Section 2](https://github.com/phamquiluan/baro/blob/main/INSTALL.md#2-install-baro-from-pypi)) or build BARO from source ([Section 3](https://github.com/phamquiluan/baro/blob/main/INSTALL.md#3-install-baro-from-source)). In addition, users who familiar with Continuous Integration (CI) can take a look at our [build-and-test.yml](https://github.com/phamquiluan/baro/blob/main/.github/workflows/build-and-test.yml) configuration to see how we test our BARO on Linux and Windows machine with Python 3.10, 3.11, and 3.12.
 
 
 ## 1. Install Python 3.10
