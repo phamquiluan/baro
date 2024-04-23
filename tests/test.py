@@ -36,4 +36,3 @@ def test_bocpd_basic():
     
     anomalies = bocpd(df)
     assert abs(anomalies[0] - 100) < 10, anomalies
-test_bocpd_basic()
