@@ -1,4 +1,4 @@
-# 🕵️ BARO: Robust Root Cause Analysis for Microservices 
+# 🕵️ BARO: Root Cause Analysis for Microservices 
 
 [![pypi package](https://img.shields.io/pypi/v/fse-baro.svg)](https://pypi.org/project/fse-baro)
 [![Downloads](https://static.pepy.tech/badge/fse-baro)](https://pepy.tech/project/fse-baro)
