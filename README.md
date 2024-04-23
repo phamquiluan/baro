@@ -18,7 +18,7 @@ In the progress of preparing the Artifact submission:
 TODO:
 
 - [x] reproduce RobustScorer
-- [ ] upload dataset to share
+- [x] upload dataset to share
 - [ ] make docs directly on readme, show available AD + RCA methods + tutorials
 - [ ] make the API
 - [ ] add [univaritebocpd](https://github.com/phamquiluan/BOCPD/commit/975eef0abef32e8ab06cf48908d0a6325234de8e)
