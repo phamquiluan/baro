@@ -28,7 +28,7 @@ workflows:
   build-daily:
     triggers:
       - schedule:
-          cron: "43 1 * * *"
+          cron: "47 3 * * *"
           filters:
             branches:
               only: main
