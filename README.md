@@ -4,13 +4,6 @@
 [![Build and test](https://github.com/phamquiluan/baro/actions/workflows/build-and-test.yml/badge.svg?branch=main)](https://github.com/phamquiluan/baro/actions/workflows/build-and-test.yml)
 
 
-TODO:
-
-- [ ] make the end-to-end API
-- [ ] restructure + lint code
-- [ ] better readme
-- [ ] reproduce BOCPD
-
 ## Installation
 
 Install from [PyPI](https://pypi.org/project/fse-baro)
