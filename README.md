@@ -1,4 +1,4 @@
-# BARO: Robust Root Cause Analysis for Microservices via Multivariate Bayesian Online Changepoint Detection
+# BARO: Robust Root Cause Analysis for Microservices via Multivariate Bayesian Online Change Point Detection
 
 [![pypi package](https://img.shields.io/pypi/v/fse-baro.svg)](https://pypi.org/project/fse-baro)
 [![Build and test](https://github.com/phamquiluan/baro/actions/workflows/build-and-test.yml/badge.svg?branch=main)](https://github.com/phamquiluan/baro/actions/workflows/build-and-test.yml)
