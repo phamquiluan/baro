@@ -28,9 +28,9 @@ workflows:
   build-daily:
     triggers:
       - schedule:
-          cron: "40 1 * * *"
+          cron: "43 1 * * *"
           filters:
             branches:
-              only: master
+              only: main
     jobs:
       - build-and-test
