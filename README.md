@@ -23,7 +23,7 @@ git clone https://github.com/phamquiluan/baro.git && cd baro
 pip install -e .
 ```
 
-BARO has been tested on Linux and Windows machines with Python 3.10, 3.11, and 3.12. More details are in [INSTALL.md](./INSTALL.md).
+BARO has been tested on Linux and Windows, with different Python versions. More details are in [INSTALL.md](./INSTALL.md).
 
 ## How-to-use
 
