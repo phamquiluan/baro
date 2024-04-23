@@ -77,7 +77,61 @@ Required-by:
 (ins)(env) luan@machine:~/tmp$ python -c 'from baro.root_cause_analysis import robust_scorer'
 (ins)(env) luan@machine:~/tmp$ 
 ```
-```
 </details>
 
 
+
+
+
+
+## 3. Install BARO from source
+### 3.1. Clone BARO from GitHub
+
+
+```bash
+git clone https://github.com/phamquiluan/baro.git
+cd baro
+```
+
+### 3.2. Create and activate a virtual environment
+
+```bash
+# create a virtual environment
+python3.10 -m venv env
+
+# activate the environment
+. env/bin/activate
+```
+
+### 3.3. Install BARO with editable mode
+
+```bash
+pip install -e .
+```
+
+## 2.3. Check the installed BARO
+
+Users can test the installed BARO using 
+
+```bash
+pytest tests/test.py
+```
+
+<details>
+<summary>The expected output would look like this</summary>
+
+```bash
+
+(ins)(env) luan@machine:~/ws/baro$ pytest tests/test.py 
+============================================ test session starts =============================================
+platform linux -- Python 3.10.13, pytest-7.4.0, pluggy-1.3.0
+rootdir: /home/luan/ws/baro
+collected 2 items                                                                                            
+
+tests/test.py ..                                                                                       [100%]
+
+============================================= 2 passed in 4.78s ==============================================
+(ins)(env) luan@machine:~/ws/baro$ 
+
+```
+</details>
