@@ -10,7 +10,7 @@ BARO is an end-to-end approach to perform anomaly detection and root cause analy
 
 ## Installation
 
-Install from [PyPI](https://pypi.org/project/fse-baro)
+Install from PyPI
 
 ```bash
 pip install fse-baro
