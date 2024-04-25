@@ -14,7 +14,7 @@ Table S1. Average execution time (in seconds) of five anomaly detection methods 
 | BIRCH       	|            0.05 	|      0.04 	|         0.11 	|
 | SPOT        	|            3.17 	|       1.9 	|         11.4 	|
 | UniBCD      	|           819.7 	|    638.19 	|      3292.48 	|
-| BARO (Ours) 	|           44.83 	|        30 	|       173.37 	|
+| **BARO (Ours)** 	|           44.83 	|        30 	|       173.37 	|
 
 
 
@@ -29,7 +29,7 @@ Table S2. Average execution time (in seconds) of six root cause analysis methods
 | RCD         	|           10.74 	|      5.62 	|        24.21 	|
 | CIRCA       	|           13.52 	|     13.47 	|      7564.88 	|
 | Nsigma      	|            0.01 	|      0.01 	|         0.01 	|
-| BARO (Ours) 	|            0.01 	|      0.01 	|         0.01 	|
+| **BARO (Ours)** 	|            0.01 	|      0.01 	|         0.01 	|
 
 
 
