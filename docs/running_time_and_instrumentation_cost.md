@@ -22,13 +22,13 @@ Table S1. Average execution time (in seconds) of five anomaly detection methods 
 
 Table S2. Average execution time (in seconds) of six root cause analysis methods across three different datasets.
 
-| Method      	| Online Boutique 	| Sock Shop 	| Train Ticket 	|
-|-------------	|:---------------:	|:---------:	|:------------:	|
-| CausalRCA   	|          299.18 	|    287.18 	|      2638.51 	|
-| Ɛ-Diagnosis 	|            3.94 	|      3.97 	|        14.83 	|
-| RCD         	|           10.74 	|      5.62 	|        24.21 	|
-| CIRCA       	|           13.52 	|     13.47 	|      7564.88 	|
-| Nsigma      	|            0.01 	|      0.01 	|         0.01 	|
+| Method          	| Online Boutique 	| Sock Shop 	| Train Ticket 	|
+|-----------------	|:---------------:	|:---------:	|:------------:	|
+| CausalRCA       	|          299.18 	|    287.18 	|      2638.51 	|
+| Ɛ-Diagnosis     	|            3.94 	|      3.97 	|        14.83 	|
+| RCD             	|           10.74 	|      5.62 	|        24.21 	|
+| CIRCA           	|           13.52 	|     13.47 	|      7564.88 	|
+| Nsigma          	|            0.01 	|      0.01 	|         0.01 	|
 | **BARO (Ours)** 	|            0.01 	|      0.01 	|         0.01 	|
 
 
