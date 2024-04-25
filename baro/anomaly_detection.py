@@ -50,12 +50,6 @@ def bocpd(data):
     from functools import partial
     from baro._bocpd import online_changepoint_detection, constant_hazard, MultivariateT
     data = data.copy()
-    # "    data = pd.read_csv(data_path)   \n",
-    # "    selected_cols = [c for c in data.columns if \"latency-50\" in c]\n",
-    # "    data = data[selected_cols]\n",
-    # "    data = data.fillna(method=\"ffill\")\n",
-    # "    data = data.fillna(0)\n",
-    # "\n",
     time_col = data['time']
     data.drop(columns=['time'], inplace=True)
     for c in data.columns:
