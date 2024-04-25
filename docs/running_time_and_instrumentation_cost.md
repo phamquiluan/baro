@@ -24,7 +24,6 @@ Table S2. Average execution time (in seconds) of six root cause analysis methods
 
 | Method      	| Online Boutique 	| Sock Shop 	| Train Ticket 	|
 |-------------	|:---------------:	|:---------:	|:------------:	|
-| Dummy       	|            0.01 	|      0.01 	|         0.01 	|
 | CausalRCA   	|          299.18 	|    287.18 	|      2638.51 	|
 | Ɛ-Diagnosis 	|            3.94 	|      3.97 	|        14.83 	|
 | RCD         	|           10.74 	|      5.62 	|        24.21 	|
