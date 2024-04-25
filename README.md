@@ -53,7 +53,7 @@ Our datasets are publicly available in Zenodo repository with the following info
 
 ## Reproducibility
 
-Check the Jupyter Notebook at [tutorials/reproducibility.ipynb](https://github.com/phamquiluan/baro/blob/main/tutorials/reproducibility.ipynb) to reproduce the performance of BARO.
+To reproduce the RCA performance of BARO, check this Google Colab [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/120svKTl53cK8KId1rFSrw0BOqnReMB0j?usp=sharing), or this Notebook [tutorials/reproducibility.ipynb](https://github.com/phamquiluan/baro/blob/main/tutorials/reproducibility.ipynb).
 
 ## Citation
 
