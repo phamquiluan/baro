@@ -1,5 +1,6 @@
 """Tests."""
 import os
+import shutil
 from os import path
 
 import numpy as np
@@ -23,17 +24,17 @@ def test_download_dataset():
     local_path = tempfile.NamedTemporaryFile().name
     download_online_boutique_dataset(local_path=local_path)
     assert path.exists(local_path), local_path
-    os.remove(local_path)
+    shutil.rmtree(local_path)
     
     local_path = tempfile.NamedTemporaryFile().name
     download_sock_shop_dataset(local_path=local_path)
     assert path.exists(local_path), local_path
-    os.remove(local_path)
+    shutil.rmtree(local_path)    
     
     local_path = tempfile.NamedTemporaryFile().name
     download_train_ticket_dataset(local_path=local_path)
     assert path.exists(local_path), local_path
-    os.remove(local_path)
+    shutil.rmtree(local_path)
 
 
 def test_nsigma_basic():
