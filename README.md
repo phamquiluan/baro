@@ -33,8 +33,14 @@ BARO has been tested on Linux and Windows, with different Python versions. More 
 
 
 ```python
+import pandas as pd 
 from baro.anomaly_detection import bocpd
 from baro.root_cause_analysis import robust_scorer
+from baro.utility import download_data, read_csv
+
+download_data() # download a sample data to data.csv
+
+
 
 anomalies = bocpd(data)  # data format and visualization are described in the Colab notebook above.
 root_causes = robust_scorer(data, anomalies=anomalies)
