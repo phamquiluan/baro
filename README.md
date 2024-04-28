@@ -48,7 +48,7 @@ root_causes = robust_scorer(data, anomalies=anomalies)
 print(root_causes)
 
 # reproducibility
-TODO: add 
+TODO: add reproducibility
 ```
 
 ## Download Paper
