@@ -1,9 +1,49 @@
+import os
+import shutil
 import requests
 import json
-
+import zipfile
+    
 from tqdm import tqdm
 import pandas as pd
 import matplotlib.pyplot as plt
+
+
+def download_online_boutique_dataset(local_path=None):
+    if local_path == None:
+        local_path = "data"
+    if not os.path.exists(local_path):
+        os.makedirs(local_path)
+        
+    download_data("https://zenodo.org/records/11046533/files/fse-ob.zip?download=1", "fse-ob.zip")
+    with zipfile.ZipFile("fse-ob.zip", 'r') as file:
+        file.extractall(local_path)
+    os.remove("fse-ob.zip")
+
+
+def download_sock_shop_dataset(local_path=None):
+    if local_path == None:
+        local_path = "data"
+    if not os.path.exists(local_path):
+        os.makedirs(local_path)
+        
+    download_data("https://zenodo.org/records/11046533/files/fse-ss.zip?download=1", "fse-ss.zip")
+    with zipfile.ZipFile("fse-ss.zip", 'r') as file:
+        file.extractall(local_path)
+    os.remove("fse-ss.zip")
+
+
+def download_train_ticket_dataset(local_path=None):
+    if local_path == None:
+        local_path = "data"
+    if not os.path.exists(local_path):
+        os.makedirs(local_path)
+        
+    download_data("https://zenodo.org/records/11046533/files/fse-tt.zip?download=1", "fse-tt.zip")
+    with zipfile.ZipFile("fse-tt.zip", 'r') as file:
+        file.extractall(local_path)
+    os.remove("fse-tt.zip")
+    
 
 def load_json(filename: str):
     with open(filename) as f:
