@@ -8,7 +8,31 @@ import tempfile
 
 from baro.anomaly_detection import nsigma, bocpd
 from baro.root_cause_analysis import robust_scorer
-from baro.utility import visualize_metrics, download_data, drop_constant
+from baro.utility import (
+    visualize_metrics,
+    download_data,
+    drop_constant,
+    download_online_boutique_dataset,
+    download_sock_shop_dataset,
+    download_train_ticket_dataset,
+)
+
+def test_download_dataset():
+    """Test download dataset."""
+    local_path = tempfile.NamedTemporaryFile().name
+    download_online_boutique_dataset(local_path=local_path)
+    assert path.exists(local_path), local_path
+    os.remove(local_path)
+    
+    local_path = tempfile.NamedTemporaryFile().name
+    download_sock_shop_dataset(local_path=local_path)
+    assert path.exists(local_path), local_path
+    os.remove(local_path)
+    
+    local_path = tempfile.NamedTemporaryFile().name
+    download_train_ticket_dataset(local_path=local_path)
+    assert path.exists(local_path), local_path
+    os.remove(local_path)
 
 
 def test_nsigma_basic():
