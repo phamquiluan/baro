@@ -171,3 +171,13 @@ def read_data(data_path):
     anomal_df = data[data["time"] >= inject_time].head(data_length)
     data = pd.concat([normal_df, anomal_df], ignore_index=True)    
     return data
+
+def to_service_ranks(ranks):
+    """Convert fine-grained ranking to service ranks"""
+    _service_ranks = [r.split("_")[0] for r in ranks]
+    service_ranks = []
+    # remove duplicates
+    for s in _service_ranks:
+        if s not in service_ranks:
+            service_ranks.append(s)
+    return service_ranks
