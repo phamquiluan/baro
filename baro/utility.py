@@ -196,3 +196,11 @@ def to_service_ranks(ranks):
         if s not in service_ranks:
             service_ranks.append(s)
     return service_ranks
+
+
+def find_cps(maxes):
+    cps = []
+    for i in range(1, len(maxes)):
+        if abs(maxes[i] - maxes[i-1]) > 1:
+            cps.append((i, abs(maxes[i] - maxes[i-1])))
+    return cps
