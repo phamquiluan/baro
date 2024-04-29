@@ -46,10 +46,14 @@ data = read_data("data.csv")
 anomalies = bocpd(data)  # data format and visualization are described in the Colab notebook above.
 root_causes = robust_scorer(data, anomalies=anomalies)
 print(root_causes)
-
-# reproducibility
-TODO: add reproducibility
 ```
+
+## Reproducibility
+
+To reproduce the performance of our BARO, we have prepared two Google Colab Notebooks as follows,
+1. [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/120svKTl53cK8KId1rFSrw0BOqnReMB0j?usp=sharing): This notebook reproduces the RCA performance of BARO (also at [tutorials/reproducibility.ipynb](https://github.com/phamquiluan/baro/blob/main/tutorials/reproducibility.ipynb)).
+2. [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1TObicUGcP9Z9xqML-iJxDo_Vlttp1Lpm?usp=sharing): This nodebook reproduces the output of the Multivariate BOCPD module. 
+
 
 ## Download Paper
 
@@ -61,12 +65,6 @@ Our datasets are publicly available in Zenodo repository with the following info
 
 - Dataset DOI: [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.11046533.svg)](https://doi.org/10.5281/zenodo.11046533)
 - Dataset URL: https://zenodo.org/records/11046533
-
-## Reproducibility
-
-To reproduce the performance of our BARO, we have prepared two Google Colab Notebooks as follows,
-1. [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/120svKTl53cK8KId1rFSrw0BOqnReMB0j?usp=sharing): This notebook reproduces the RCA performance of BARO (also at [tutorials/reproducibility.ipynb](https://github.com/phamquiluan/baro/blob/main/tutorials/reproducibility.ipynb)).
-2. [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1TObicUGcP9Z9xqML-iJxDo_Vlttp1Lpm?usp=sharing): This nodebook reproduces the output of the Multivariate BOCPD module. 
 
 ## Running Time \& Instrumentation Cost
 
