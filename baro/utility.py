@@ -138,3 +138,36 @@ def download_data(remote_url=None, local_path=None):
     progress_bar.close()
     if total_size_in_bytes != 0 and progress_bar.n != total_size_in_bytes:
         print("ERROR, something went wrong")
+
+
+def read_data(data_path):
+    """Read csv data for root cause analysis."""    
+    data = pd.read_csv(data_path)
+    data_dir = os.path.dirname(data_path)
+
+    ############# PREPROCESSING ###############
+    if "time.1" in data:
+        data = data.drop(columns=["time.1"])
+    data = data.replace([np.inf, -np.inf], np.nan)
+    data = data.ffill()
+    data = data.fillna(0)
+
+    # remove latency-50 columns
+    data = data.loc[:, ~data.columns.str.endswith("latency-50")]
+    # rename latency-90 columns to latency
+    data = data.rename(
+        columns={
+            c: c.replace("_latency-90", "_latency")
+            for c in data.columns
+            if c.endswith("_latency-90")
+        }
+    )
+
+    # cut the data into 10 mins
+    data_length = 300
+    with open(join(data_dir, "inject_time.txt")) as f:
+        inject_time = int(f.readlines()[0].strip())
+    normal_df = data[data["time"] < inject_time].tail(data_length)
+    anomal_df = data[data["time"] >= inject_time].head(data_length)
+    data = pd.concat([normal_df, anomal_df], ignore_index=True)    
+    return data
