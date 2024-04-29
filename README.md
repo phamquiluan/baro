@@ -33,12 +33,12 @@ BARO has been tested on Linux and Windows, with different Python versions. More 
 
 ### Data format
 
-The data must be a pandas.DataFrame that consists of multivariate time series metrics data. We require the data to have a column named time that stores the timestep. Each other column stores a time series for metrics data with the name format of <service>_<metric>. For example, the column cart_cpu stores the CPU utilization of service cart.
+The data must be a `pandas.DataFrame` that consists of multivariate time series metrics data. We require the data to have a column named `time` that stores the timestep. Each other column stores a time series for metrics data with the name format of `<service>_<metric>`. For example, the column `cart_cpu` stores the CPU utilization of service `cart`.
 
 
 ### Sample Python commands to use BARO
 
-BARO consists of two modules, namely MultivariateBOCPD (implemented in baro.anomaly_detection.bocpd) and RobustScorer (implemented in baro.root_cause_analysis.robust_scorer). We expose these two functions for users/researchers to reuse them more conveniently. The sample commands to run BARO are presented as follows,
+BARO consists of two modules, namely MultivariateBOCPD (implemented in `baro.anomaly_detection.bocpd`) and RobustScorer (implemented in `baro.root_cause_analysis.robust_scorer`). We expose these two functions for users/researchers to reuse them more conveniently. The sample commands to run BARO are presented as follows,
 
 ```python
 import pandas as pd 
