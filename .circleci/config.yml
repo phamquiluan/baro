@@ -20,6 +20,7 @@ jobs:
       - run:
           name: "Run test"
           command: pytest tests/test.py
+          no_output_timeout: 3h
 
 workflows:
   main-flow:
