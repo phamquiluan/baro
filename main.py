@@ -1,5 +1,5 @@
 from argparse import ArgumentParser
-from baro.reproducibility import reproduce_baro
+from baro.reproducibility import reproduce_baro, reproduce_bocpd
 
 DATASET_MAPS = {
     "OnlineBoutique": "fse-ob",
@@ -23,4 +23,4 @@ if args.fault_type not in [None, "all", "cpu", "mem", "delay", "loss"]:
 if not args.anomaly_detection:
     reproduce_baro(dataset=DATASET_MAPS[args.dataset], fault=args.fault_type)
 else:
-    print("Not implemented yet!")   
+    reproduce_bocpd(dataset=DATASET_MAPS[args.dataset])
