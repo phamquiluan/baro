@@ -200,3 +200,4 @@ data
 .vscode
 env
 env*
+*.zip
