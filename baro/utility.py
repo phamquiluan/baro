@@ -12,11 +12,15 @@ import matplotlib.pyplot as plt
 
 
 def download_online_boutique_dataset(local_path=None):
+    """
+    Download the Online Boutique dataset from Zenodo.
+    """
     if local_path == None:
         local_path = "data"
     if not os.path.exists(local_path):
         os.makedirs(local_path)
-        
+    if os.path.exists(join(local_path, "fse-ob")):
+        return
     download_data("https://zenodo.org/records/11046533/files/fse-ob.zip?download=1", "fse-ob.zip")
     with zipfile.ZipFile("fse-ob.zip", 'r') as file:
         file.extractall(local_path)
@@ -24,11 +28,15 @@ def download_online_boutique_dataset(local_path=None):
 
 
 def download_sock_shop_dataset(local_path=None):
+    """
+    Download the Sock Shop dataset from Zenodo. 
+    """
     if local_path == None:
         local_path = "data"
     if not os.path.exists(local_path):
         os.makedirs(local_path)
-        
+    if os.path.exists(join(local_path, "fse-ss")):
+        return   
     download_data("https://zenodo.org/records/11046533/files/fse-ss.zip?download=1", "fse-ss.zip")
     with zipfile.ZipFile("fse-ss.zip", 'r') as file:
         file.extractall(local_path)
@@ -36,11 +44,15 @@ def download_sock_shop_dataset(local_path=None):
 
 
 def download_train_ticket_dataset(local_path=None):
+    """
+    Download the Train Ticket dataset from Zenodo. 
+    """
     if local_path == None:
         local_path = "data"
     if not os.path.exists(local_path):
         os.makedirs(local_path)
-        
+    if os.path.exists(join(local_path, "fse-tt")):
+        return
     download_data("https://zenodo.org/records/11046533/files/fse-tt.zip?download=1", "fse-tt.zip")
     with zipfile.ZipFile("fse-tt.zip", 'r') as file:
         file.extractall(local_path)
@@ -183,3 +195,10 @@ def to_service_ranks(ranks):
         if s not in service_ranks:
             service_ranks.append(s)
     return service_ranks
+
+
+def reproduce_baro(dataset=None, fault=None):
+    assert dataset in ["fse-ob", "fse-ss", "fse-tt"], f"{dataset} is not supported!"
+    assert fault in ["cpu", "mem", "delay", "loss"], f"{fault} is not supported!"
+    
+    
