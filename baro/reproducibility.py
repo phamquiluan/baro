@@ -82,3 +82,4 @@ def reproduce_baro(dataset=None, fault=None):
     print(f"Dataset   : {dataset}")
     print(f"Fault type: {fault}")
     print(f"Avg@5 Acc : {avg5_accuracy:.2f}")
+    print()
