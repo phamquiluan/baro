@@ -71,7 +71,7 @@ Expected output
 ```
 ====== Reproduce BARO =====
 Dataset   : fse-ob
-Fault type: all
+Fault type: cpu
 Avg@5 Acc : 0.91
 ```
 
@@ -86,7 +86,7 @@ Expected output
 ```
 ====== Reproduce BARO =====
 Dataset   : fse-ob
-Fault type: all
+Fault type: mem
 Avg@5 Acc : 0.96
 ```
 
@@ -101,7 +101,7 @@ Expected output
 ```
 ====== Reproduce BARO =====
 Dataset   : fse-ob
-Fault type: all
+Fault type: delay
 Avg@5 Acc : 0.95
 ```
 
@@ -116,7 +116,7 @@ Expected output
 ```
 ====== Reproduce BARO =====
 Dataset   : fse-ob
-Fault type: all
+Fault type: loss
 Avg@5 Acc : 0.62
 ```
 
