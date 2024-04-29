@@ -8,13 +8,19 @@ DATASET_MAPS = {
 }
 
 parser = ArgumentParser()
+parser.add_argument("--anomaly-detection", action="store_true")
 parser.add_argument("--dataset", type=str, default=None)
 parser.add_argument("--fault-type", type=str, default=None)
 
 args = parser.parse_args()
 if args.dataset not in DATASET_MAPS:
-    print(f"{args.dataset} is not supported! Valid datasets are {list(DATASET_MAPS.keys())}")
+    print(f"Dataset {args.dataset} is not supported! Valid datasets are {list(DATASET_MAPS.keys())}")
+    exit(0)
 if args.fault_type not in [None, "all", "cpu", "mem", "delay", "loss"]:
-    print(f"{args.fault_type} is not supported! Valid fault types are [None, 'all', 'cpu', 'mem', 'delay', 'loss']")
+    print(f"Fault type {args.fault_type} is not supported! Valid fault types are [None, 'all', 'cpu', 'mem', 'delay', 'loss']")
+    exit(0)
 
-reproduce_baro(dataset=DATASET_MAPS[args.dataset], fault=args.fault_type)
+if not args.anomaly_detection:
+    reproduce_baro(dataset=DATASET_MAPS[args.dataset], fault=args.fault_type)
+else:
+    print("Not implemented yet!")   
