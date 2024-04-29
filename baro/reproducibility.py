@@ -13,11 +13,14 @@ import pandas as pd
 from baro.utility import (
     read_data,
     load_json,
+    drop_constant,
     to_service_ranks,
     download_online_boutique_dataset,
     download_sock_shop_dataset,
     download_train_ticket_dataset,
 )
+from baro._bocpd import online_changepoint_detection, partial, constant_hazard, MultivariateT
+from baro.anomaly_detection import bocpd
 from baro.root_cause_analysis import robust_scorer
 
 
@@ -83,3 +86,107 @@ def reproduce_baro(dataset=None, fault=None):
     print(f"Fault type: {fault}")
     print(f"Avg@5 Acc : {avg5_accuracy:.2f}")
     print()
+    
+
+def reproduce_bocpd(dataset=None):
+    assert dataset in ["fse-ob", "fse-ss", "fse-tt"], f"{dataset} is not supported!"
+    
+    if not os.path.exists(f"data/{dataset}"):
+        if dataset == "fse-ob":
+            download_online_boutique_dataset()
+        elif dataset == "fse-ss":
+            download_sock_shop_dataset()
+        elif dataset == "fse-tt":
+            download_train_ticket_dataset()
+    
+    data_paths = list(glob.glob(f"./data/{dataset}/**/simple_data.csv", recursive=True))
+
+
+    cnt, tp, fp, tn, fn = 0, 0, 0, 0, 0
+
+    for data_path in tqdm(data_paths, desc=f"Running"):
+        service_metric = basename(dirname(dirname(data_path)))
+        case_idx = basename(dirname(data_path))
+        data_dir = dirname(data_path)
+
+        # PREPARE DATA
+        data = pd.read_csv(data_path)
+
+        # read inject_time, cut data
+        with open(join(data_dir, "inject_time.txt")) as f:
+            inject_time = int(f.readlines()[0].strip())
+        normal_df = data[data["time"] < inject_time].tail(300)
+        anomal_df = data[data["time"] >= inject_time].head(300)
+        data = pd.concat([normal_df, anomal_df], ignore_index=True)
+
+        # drop extra columns
+        selected_cols = []
+        for c in data.columns:
+            if 'queue-master' in c or 'rabbitmq_' in c: continue
+            if "latency-50" in c or "_error" in c:
+                selected_cols.append(c)
+        data = data[selected_cols]
+
+        # handle na
+        data = drop_constant(data)
+        data = data.fillna(method="ffill")
+        data = data.fillna(0)
+        for c in data.columns:
+            data[c] = (data[c] - np.min(data[c])) / (np.max(data[c]) - np.min(data[c]))
+        data = data.fillna(method="ffill")
+        data = data.fillna(0)
+        
+        data = data.to_numpy()
+
+        # RUN BOCPD
+        R, maxes = online_changepoint_detection(
+                data,
+                partial(constant_hazard, 50),
+                MultivariateT(dims=data.shape[1])
+        )
+        cps = find_cps(maxes)
+        if len(cps) > 0:
+            tp += 1
+        else: 
+            fn += 1
+
+        ### FOR NORMAL CASE
+        data = normal_df
+        selected_cols = []
+        for c in data.columns:
+            if 'queue-master' in c or 'rabbitmq_' in c: continue
+            if "latency-50" in c or "_error" in c:
+                selected_cols.append(c)
+        data = data[selected_cols]
+
+        # handle na
+        data = drop_constant(data)
+        data = data.fillna(method="ffill")
+        data = data.fillna(0)
+        for c in data.columns:
+            data[c] = (data[c] - np.min(data[c])) / (np.max(data[c]) - np.min(data[c]))
+        data = data.fillna(method="ffill")
+        data = data.fillna(0)
+        
+        data = data.to_numpy()
+
+        # RUN BOCPD
+        R, maxes = online_changepoint_detection(
+                data,
+                partial(constant_hazard, 50),
+                MultivariateT(dims=data.shape[1])
+        )
+        cps = find_cps(maxes)
+        if len(cps) > 0:
+            fp += 1
+        else: 
+            tn += 1
+    
+    precision = tp / (tp + fp)
+    recall = tp / (tp + fn)
+    f1 = 2 * precision * recall / (precision + recall)
+    print("====== Reproduce BOCPD =====")
+    print(f"Dataset: {dataset}")
+    print(f"Precision: {precision:.2f}")
+    print(f"Recall   : {recall:.2f}")
+    print(f"F1       : {f1:.2f}")
