@@ -10,7 +10,14 @@ from os.path import join, basename, dirname
 import numpy as np
 from tqdm import tqdm
 import pandas as pd
-from baro.utility import read_data, load_json, to_service_ranks
+from baro.utility import (
+    read_data,
+    load_json,
+    to_service_ranks,
+    download_online_boutique_dataset,
+    download_sock_shop_dataset,
+    download_train_ticket_dataset,
+)
 from baro.root_cause_analysis import robust_scorer
 
 
@@ -19,6 +26,14 @@ def reproduce_baro(dataset=None, fault=None):
     assert fault in [None, "all", "cpu", "mem", "delay", "loss"], f"{fault} is not supported!"
     if fault is None:
         fault = "all"
+    
+    if not os.path.exists(f"data/{dataset}"):
+        if dataset == "fse-ob":
+            download_online_boutique_dataset()
+        elif dataset == "fse-ss":
+            download_sock_shop_dataset()
+        elif dataset == "fse-tt":
+            download_train_ticket_dataset()
     
     data_paths = list(glob.glob(f"./data/{dataset}/**/simple_data.csv", recursive=True))
     if fault != "all":
