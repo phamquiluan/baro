@@ -9,6 +9,7 @@ DATASET_MAPS = {
 
 parser = ArgumentParser()
 parser.add_argument("--anomaly-detection", action="store_true")
+parser.add_argument("--saved", action="store_true")
 parser.add_argument("--dataset", type=str, default=None)
 parser.add_argument("--fault-type", type=str, default=None)
 
@@ -23,4 +24,4 @@ if args.fault_type not in [None, "all", "cpu", "mem", "delay", "loss"]:
 if not args.anomaly_detection:
     reproduce_baro(dataset=DATASET_MAPS[args.dataset], fault=args.fault_type)
 else:
-    reproduce_bocpd(dataset=DATASET_MAPS[args.dataset])
+    reproduce_bocpd(dataset=DATASET_MAPS[args.dataset], saved=args.saved)

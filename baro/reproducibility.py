@@ -89,7 +89,7 @@ def reproduce_baro(dataset=None, fault=None):
     print()
     
 
-def reproduce_bocpd(dataset=None):
+def reproduce_bocpd(dataset=None, saved=False):
     assert dataset in ["fse-ob", "fse-ss", "fse-tt"], f"{dataset} is not supported!"
     
     if not os.path.exists(f"data/{dataset}"):
@@ -139,60 +139,27 @@ def reproduce_bocpd(dataset=None):
         
         data = data.to_numpy()
 
-        # # RUN BOCPD
-        # R, maxes = online_changepoint_detection(
-        #         data,
-        #         partial(constant_hazard, 50),
-        #         MultivariateT(dims=data.shape[1])
-        # )
-        # cps = find_cps(maxes)
-        # cps = [p[0] for p in cps]
+        # RUN BOCPD
         cps = load_json(join(data_dir, "naive_bocpd.json"))
+        if saved is False:
+            R, maxes = online_changepoint_detection(
+                    data,
+                    partial(constant_hazard, 50),
+                    MultivariateT(dims=data.shape[1])
+            )
+            cps = find_cps(maxes)
 
         if len(cps) > 0:
             tp += 1
         else: 
             fn += 1
 
-        # if cps[0][0] < 300:
-        #     fp += 1
-        # else: 
-        #     tn += 1
-        
-        
-        ######### FOR NORMAL 
-        data = normal_df
-        selected_cols = []
-        for c in data.columns:
-            if 'queue-master' in c or 'rabbitmq_' in c: continue
-            if "latency-50" in c or "_error" in c:
-                selected_cols.append(c)
-        data = data[selected_cols]
-
-        # handle na
-        data = drop_constant(data)
-        data = data.fillna(method="ffill")
-        data = data.fillna(0)
-        for c in data.columns:
-            data[c] = (data[c] - np.min(data[c])) / (np.max(data[c]) - np.min(data[c]))
-        data = data.fillna(method="ffill")
-        data = data.fillna(0)
-        
-        data = data.to_numpy()
-
-        # RUN BOCPD
-        R, maxes = online_changepoint_detection(
-                data,
-                partial(constant_hazard, 50),
-                MultivariateT(dims=data.shape[1])
-        )
-        cps = find_cps(maxes)
-        cps = [p[0] for p in cps]
-        if len(cps):
+        if cps[0][0] < 300:
             fp += 1
-        else:
+        else: 
             tn += 1
-    
+        
+        
     precision = tp / (tp + fp)
     recall = tp / (tp + fn)
     f1 = 2 * precision * recall / (precision + recall)
