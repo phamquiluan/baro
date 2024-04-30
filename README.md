@@ -245,7 +245,7 @@ Running: 100%|██████████████████████
 
 ## Download Paper
 
-The pre-print of our paper is located at [./docs/paper.pdf](./docs/paper.pdf).
+Our paper is located at [./docs/paper.pdf](./docs/paper.pdf).
 
 ## Download Datasets
 
