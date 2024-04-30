@@ -9,6 +9,17 @@
 
 **BARO** is an end-to-end anomaly detection and root cause analysis approach for microservices's failures. This repository includes artifacts for reuse and reproduction of experimental results presented in our FSE'24 paper titled _"BARO: Robust Root Cause Analysis for Microservices via Multivariate Bayesian Online Change Point Detection"_.
 
+**Table of Contents**
+  * [Installation](#installation)
+  * [How-to-use](#how-to-use)
+    + [Data format](#data-format)
+    + [Sample Python commands to use BARO](#sample-python-commands-to-use-baro)
+  * [Reproducibility](#reproducibility)
+  * [Download Paper](#download-paper)
+  * [Download Datasets](#download-datasets)
+  * [Running Time and Instrumentation Cost](#running-time-and-instrumentation-cost)
+  * [Citation](#citation)
+  * [Contact](#contact)
 
 ## Installation
 
@@ -173,7 +184,7 @@ Our datasets are publicly available in Zenodo repository with the following info
 - Dataset DOI: [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.11046533.svg)](https://doi.org/10.5281/zenodo.11046533)
 - Dataset URL: https://zenodo.org/records/11046533
 
-## Running Time \& Instrumentation Cost
+## Running Time and Instrumentation Cost
 
 Please refer to our [docs/running_time_and_instrumentation_cost.md](docs/running_time_and_instrumentation_cost.md) document.
 
