@@ -119,9 +119,10 @@ $ python main.py --dataset OnlineBoutique --anomaly-detection
 ```
 
 <details>
-<summary>Expected output after running the above code (it takes few seconds)</summary>
+<summary>Expected output after running the above code (it takes around two hours)</summary>
 
-The results are a bit better than the numbers presented in the paper.
+
+The results are a bit better than the numbers presented in the paper (Table 2).
 ```
 ====== Reproduce BOCPD =====
 Dataset: fse-ob
