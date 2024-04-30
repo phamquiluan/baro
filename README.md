@@ -220,7 +220,7 @@ Our RQ3 relies on the experimental results of RQ2, which we reproduced above.
 
 ### Reproduce RQ4 - Sensitivity Analysis
 
-As presented in Figure 5, BARO maintains stable accuracy on the Online Boutique dataset when we vary `t_bias` from `-40` to `40`. To reproduce this results, for example, you can run the following command to obtain the corresponding Avg@5 scores on the Online Boutique dataset:
+As presented in Figure 5, BARO maintains stable accuracy on the Online Boutique dataset when we vary `t_bias` from `-40` to `40`. To reproduce these results, for example, you can run the following command to obtain the Avg@5 scores on the Online Boutique dataset:
 
 ```bash
 python main.py --dataset OnlineBoutique --rq4 --eval-metric avg5 
