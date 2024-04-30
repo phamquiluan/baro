@@ -87,7 +87,7 @@ Top 5 root causes: ['checkoutservice_latency', 'cartservice_mem', 'cartservice_l
 ```
 </details>
 
-👉 You can also check this [tutorials/how-to-use-baro.ipynb](tutorials/how-to-use-baro.ipynb).
+👉 For more detailed tutorials, you can also check this [tutorials/how-to-use-baro.ipynb](tutorials/how-to-use-baro.ipynb).
 
 
 ## Reproducibility
