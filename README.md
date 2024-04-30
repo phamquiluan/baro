@@ -41,7 +41,6 @@ The data must be a `pandas.DataFrame` that consists of multivariate time series 
 BARO consists of two modules, namely MultivariateBOCPD (implemented in `baro.anomaly_detection.bocpd`) and RobustScorer (implemented in `baro.root_cause_analysis.robust_scorer`). We expose these two functions for users/researchers to reuse them more conveniently. The sample commands to run BARO are presented as follows,
 
 ```python
-import pandas as pd 
 from baro.anomaly_detection import bocpd
 from baro.root_cause_analysis import robust_scorer
 from baro.utility import download_data, read_data
@@ -49,12 +48,31 @@ from baro.utility import download_data, read_data
 # download a sample data to data.csv
 download_data()
 
-# read data, perform anomaly detection and rca using bocpd and robust_scorer
+# read data from data.csv
 data = read_data("data.csv")
-anomalies = bocpd(data)
-root_causes = robust_scorer(data, anomalies=anomalies)
-print(root_causes)
+
+# perform anomaly detection 
+anomalies = bocpd(data) 
+print("Anomalies are detected at timestep:", anomalies[0])
+
+# perform root cause analysis
+root_causes = robust_scorer(data, anomalies=anomalies)["ranks"]
+
+# print the top 5 root causes
+print("Top 5 root causes:", root_causes[:5])
 ```
+
+<details>
+<summary>Expected output (it takes around 1 minute)</summary>
+
+```
+$ python tmp.py
+Downloading data.csv..: 100%|████████████████████████████████| 570k/570k [00:00<00:00, 17.1MiB/s]
+Anomalies are detected at timestep: 243
+Top 5 root causes: ['checkoutservice_latency', 'cartservice_mem', 'cartservice_latency', 'cartservice_cpu', 'main_mem']
+```
+</details>
+
 
 ## Reproducibility
 
