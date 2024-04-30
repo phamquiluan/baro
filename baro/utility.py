@@ -4,7 +4,7 @@ import shutil
 import requests
 import json
 import zipfile
-from os.path import join, basename, dirname
+from os.path import join, basename, dirname, exists
 
 import numpy as np
 from tqdm import tqdm
@@ -178,7 +178,7 @@ def read_data(data_path, strip=True):
         }
     )
 
-    if strip is True:
+    if strip is True and exists(join(data_dir, "inject_time.txt")):
         # cut the data into 10 mins
         data_length = 300
         with open(join(data_dir, "inject_time.txt")) as f:
