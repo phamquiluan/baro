@@ -88,6 +88,28 @@ Top 5 root causes: ['checkoutservice_latency', 'cartservice_mem', 'cartservice_l
 
 ## Reproducibility
 
+We have provided a file named `main.py` to assist in reproducibility, which can be run using Python with the following syntax:
+
+```bash
+$ python main.py [-h] [--anomaly-detection] [--saved] [--dataset DATASET] [--fault-type FAULT_TYPE]
+```
+
+The description for the arguments/options of the file `main.py` are as follows:
+```bash
+options:
+  -h, --help            show this help message and exit
+  --anomaly-detection   This flag is used to reproduce the anomaly detection results. The
+                        program will omit `--fault-type` and `--saved` arguments when using
+                        the `--anomaly-detection` flag.
+  --saved               The program will used the saved anomaly detection results to reproduce
+                        the root cause analysis results without running anomaly detection again.
+  --dataset DATASET     Valid options are: ['OnlineBoutique', 'SockShop', and 'TrainTicket']
+  --fault-type FAULT_TYPE
+                        Valid options are: ['cpu', 'mem', 'delay', 'loss', and 'all']. If 'all' is
+                        selected, the program will run the root cause analysis for all fault types.
+```
+
+
 As presented in Table 3, BARO achieves Avg@5 of 0.91, 0.96, 0.95, 0.62, and 0.86 for CPU, MEM, DELAY, LOSS, and ALL fault types on the Online Boutique dataset. To reproduce the RCA performance of our BARO as presented in the Table 3. You can run the following commands:
 
 **Reproduce RCA performance on the Online Boutique dataset, fault type CPU**
