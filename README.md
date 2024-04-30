@@ -213,6 +213,10 @@ Avg@5 Acc : 0.86
 </details>
 
 
+### Reproduce RQ3 - Components of BARO
+
+Our RQ3 relies on the experimental results of RQ2, which we reproduced above. 
+
 ### Reproduce RQ4 - Sensitivity Analysis
 
 As presented in Figure 5, BARO maintains stable accuracy on the Online Boutique dataset when we vary `t_bias` from `-40` to `40`. To reproduce this results, you can run the following commands:
