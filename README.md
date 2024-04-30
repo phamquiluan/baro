@@ -232,7 +232,7 @@ Please refer to our [docs/running_time_and_instrumentation_cost.md](docs/running
 
 ## Supplementary materials
 
-You can download our supplementary materials from ..
+You can download our supplementary materials from [docs/fse_baro_supplementary_material.pdf](docs/fse_baro_supplementary_material.pdf)
 
 ## Citation
 
