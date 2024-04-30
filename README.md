@@ -15,6 +15,8 @@
     + [Data format](#data-format)
     + [Sample Python commands to use BARO](#sample-python-commands-to-use-baro)
   * [Reproducibility](#reproducibility)
+    + [Reproduce RQ1 - Anomaly Detection Effectiveness](#reproduce-rq1---anomaly-detection-effectiveness)
+    + [Reproduce RQ2 - Root Cause Analysis Effectiveness](#reproduce-rq2---root-cause-analysis-effectiveness)
   * [Download Paper](#download-paper)
   * [Download Datasets](#download-datasets)
   * [Running Time and Instrumentation Cost](#running-time-and-instrumentation-cost)
@@ -110,7 +112,7 @@ options:
 ```
 
 
-### Reproduce RQ1: Anomaly Detection Effectiveness
+### Reproduce RQ1 - Anomaly Detection Effectiveness
 
 To reproduce the anomaly detection performance of BARO, as presented in Table 2. You can run the following commands:
 
@@ -134,7 +136,7 @@ F1       : 0.87
 
 You can also checked the [tutorials/reproduce_multivariate_bocpd.ipynb](tutorials/reproduce_multivariate_bocpd.ipynb) to reproduce the saved anomalies in our datasets.
 
-### Reproduce RQ2: Root Cause Analysis Effectiveness
+### Reproduce RQ2 - Root Cause Analysis Effectiveness
 
 As presented in Table 3, BARO achieves Avg@5 of 0.91, 0.96, 0.95, 0.62, and 0.86 for CPU, MEM, DELAY, LOSS, and ALL fault types on the Online Boutique dataset. To reproduce the RCA performance of our BARO as presented in the Table 3. You can run the following commands:
 
