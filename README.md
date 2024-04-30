@@ -33,13 +33,17 @@ Clone BARO from GitHub
 git clone https://github.com/phamquiluan/baro.git && cd baro
 ```
 
-Install BARO from PyPI or Build BARO from source
+Install BARO from PyPI
 
 ```bash
 # install BARO from PyPI
 pip install fse-baro
+```
 
-# Or, build BARO from source
+Or, build BARO from source
+
+```
+# build BARO from source
 pip install -e .
 ```
 
