@@ -110,8 +110,28 @@ options:
 ```
 
 
+### Reproduce RQ1: Anomaly Detection Effectiveness
 
-### RQ2: Root Cause Analysis Effectiveness
+As presented in Table 2, BARO achieves Precision, Recall and F1-score of 0.69, 1, and 0.82, respectively in anomaly detection, on the Online Boutique dataset. To reproduce the performance of our BARO as presented in the Table 2. You can run the following commands:
+
+```bash
+$ python main.py --dataset OnlineBoutique --anomaly-detection
+```
+
+<details>
+<summary>Expected output after running the above code (it takes few seconds)</summary>
+
+```
+====== Reproduce BOCPD =====
+Dataset: fse-ob
+Precision: 0.76
+Recall   : 1.00
+F1       : 0.87
+```
+</details>
+
+
+### Reproduce RQ2: Root Cause Analysis Effectiveness
 
 As presented in Table 3, BARO achieves Avg@5 of 0.91, 0.96, 0.95, 0.62, and 0.86 for CPU, MEM, DELAY, LOSS, and ALL fault types on the Online Boutique dataset. To reproduce the RCA performance of our BARO as presented in the Table 3. You can run the following commands:
 
