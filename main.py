@@ -26,6 +26,6 @@ if args.fault_type not in [None, "all", "cpu", "mem", "delay", "loss"]:
 if args.anomaly_detection:
     reproduce_bocpd(dataset=DATASET_MAPS[args.dataset], saved=args.saved)
 elif args.rq4:
-    reproduce_rq4(dataset=DATASET_MAPS[args.dataset], score=args.eval_metric)
+    reproduce_rq4(dataset=DATASET_MAPS[args.dataset], eval_metric=args.eval_metric)
 else:
     reproduce_baro(dataset=DATASET_MAPS[args.dataset], fault=args.fault_type)
