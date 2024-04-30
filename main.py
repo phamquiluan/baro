@@ -8,8 +8,8 @@ DATASET_MAPS = {
 }
 
 parser = ArgumentParser(formatter_class=RawTextHelpFormatter)
-parser.add_argument("--anomaly-detection", action="store_true", help="This flag is used to reproduce the anomaly detection results. The\nprogram will omit the `--fault-type` argument when using the\n`--anomaly-detection` flag")
-parser.add_argument("--saved", action="store_true", help="This flag is used to use saved anomaly detection results to reproduce\nroot cause analysis results without running anomaly detection again")
+parser.add_argument("--anomaly-detection", action="store_true", help="This flag is used to reproduce the anomaly detection results. Using\nthis flag omits the `--fault-type` argument")
+parser.add_argument("--saved", action="store_true", help="This flag is used to use saved anomaly detection results to reproduce\nthe presented results without running anomaly detection again")
 parser.add_argument("--dataset", type=str, default=None, help="Valid options are: ['OnlineBoutique', 'SockShop', and 'TrainTicket']")
 parser.add_argument("--fault-type", type=str, default=None, help="Valid options are: ['cpu', 'mem', 'delay', 'loss', and 'all']. If 'all' is\nselected, the program will run the root cause analysis for all fault types")
 
