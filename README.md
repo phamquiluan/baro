@@ -39,7 +39,7 @@ Install BARO from PyPI or Build BARO from source
 # install BARO from PyPI
 pip install fse-baro
 
-# build BARO from source
+# Or, build BARO from source
 pip install -e .
 ```
 
