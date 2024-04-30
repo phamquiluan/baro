@@ -2,7 +2,14 @@
 
 We assume the users already satisfy the [REQUIREMENTS.md](REQUIREMENTS.md) and have Python 3.10 installed ([Section 1](https://github.com/phamquiluan/baro/blob/main/INSTALL.md#1-install-python310)). Then, users can install BARO from PyPI ([Section 2](https://github.com/phamquiluan/baro/blob/main/INSTALL.md#2-install-baro-from-pypi)) or build BARO from source ([Section 3](https://github.com/phamquiluan/baro/blob/main/INSTALL.md#3-install-baro-from-source)). In addition, users who familiar with Continuous Integration (CI) can take a look at our [build-and-test.yml](https://github.com/phamquiluan/baro/blob/main/.github/workflows/build-and-test.yml) configuration to see how we test our BARO on Linux and Windows machine from Python 3.7 to 3.12.
 
-
+**Table of contents**
+  * [Installation Instruction](#installation-instruction)
+    + [Install Python 3.10](#install-python-310)
+    + [Clone BARO from GitHub](#clone-baro-from-github)
+    + [Create and activate a virtual environment](#create-and-activate-a-virtual-environment)
+    + [Install BARO from PyPI or Build BARO from source](#install-baro-from-pypi-or-build-baro-from-source)
+  * [Test the installation](#test-the-installation)
+ 
 ## Installation Instruction
 
 ### Install Python 3.10
@@ -31,7 +38,7 @@ python3.10 -m venv env
 . env/bin/activate
 ```
 
-### Install BARO from [PyPI](https://pypi.org/project/fse-baro) or Build BARO from source
+### Install BARO from PyPI or Build BARO from source
 
 ```bash
 # install BARO from PyPI
