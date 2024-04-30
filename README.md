@@ -134,6 +134,8 @@ $ python main.py --dataset OnlineBoutique --anomaly-detection
 
 The results are a bit better than the numbers presented in the paper (Table 2).
 ```
+Downloading fse-ob.zip..: 100% 151M/151M [04:12<00:00, 597kiB/s]
+Running:   2% 2/100 [02:51<2:20:31, 86.03s/it]
 ====== Reproduce BOCPD =====
 Dataset: fse-ob
 Precision: 0.76
