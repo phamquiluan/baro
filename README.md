@@ -7,7 +7,7 @@
 [![Build and test](https://github.com/phamquiluan/baro/actions/workflows/build-and-test.yml/badge.svg?branch=main)](https://github.com/phamquiluan/baro/actions/workflows/build-and-test.yml)
 [![Upload Python Package](https://github.com/phamquiluan/baro/actions/workflows/python-publish.yml/badge.svg)](https://github.com/phamquiluan/baro/actions/workflows/python-publish.yml)
 
-**BARO** is an end-to-end anomaly detection and root cause analysis approach for microservices's failures. This repository includes artifacts for reuse and reproduction of experimental results presented in our FSE'24 paper titled _"BARO: Robust Root Cause Analysis for Microservices via Multivariate Bayesian Online Change Point Detection"_.
+**BARO** is an end-to-end anomaly detection and root cause analysis approach for microservices failures. This repository includes artifacts for reuse and reproduction of experimental results presented in our FSE'24 paper titled _"BARO: Robust Root Cause Analysis for Microservices via Multivariate Bayesian Online Change Point Detection"_.
 
 **Table of Contents**
   * [Installation](#installation)
@@ -51,7 +51,7 @@ The data must be a `pandas.DataFrame` that consists of multivariate time series 
 
 ### Basic usage example
 
-BARO consists of two modules, namely MultivariateBOCPD (implemented in `baro.anomaly_detection.bocpd`) and RobustScorer (implemented in `baro.root_cause_analysis.robust_scorer`). We expose these two functions for users/researchers to reuse them more conveniently. The basic sample commands to run BARO are presented as follows,
+BARO consists of two modules, namely MultivariateBOCPD (implemented in `baro.anomaly_detection.bocpd`) and RobustScorer (implemented in `baro.root_cause_analysis.robust_scorer`). We expose these two modules for users/researchers to reuse them more conveniently. The basic sample commands to run BARO are presented as follows,
 
 ```python
 # You can put the code here to a file named test.py
