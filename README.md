@@ -200,7 +200,9 @@ $ python main.py --dataset OnlineBoutique --rq4 --eval-metric avg5
 <summary>Expected output after running the above code (it takes few minutes)</summary>
 
 <br />
+
 The output list presents the `Avg@5` scores when we vary `t_bias`. You can see that BARO can maintain a stable performance.
+
 
 ```
 Running: 100%|███████████████████████████████████████████████████| 40/40 [04:00<00:00,  6.02s/it]
