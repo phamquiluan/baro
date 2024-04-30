@@ -1,19 +1,37 @@
 from argparse import ArgumentParser, RawTextHelpFormatter
 from baro.reproducibility import reproduce_baro, reproduce_bocpd, reproduce_rq4
 
+# Define dataset mappings
 DATASET_MAPS = {
     "OnlineBoutique": "fse-ob",
     "SockShop": "fse-ss",
     "TrainTicket": "fse-tt"
 }
 
+# Define command-line arguments
 parser = ArgumentParser(formatter_class=RawTextHelpFormatter)
-parser.add_argument("--anomaly-detection", action="store_true", help="This flag is used to reproduce the anomaly detection results. Using\nthis flag omits the `--fault-type` argument")
-parser.add_argument("--saved", action="store_true", help="This flag is used to use saved anomaly detection results to reproduce\nthe presented results without running anomaly detection again")
-parser.add_argument("--dataset", type=str, default=None, help="Valid options are: ['OnlineBoutique', 'SockShop', and 'TrainTicket']")
-parser.add_argument("--fault-type", type=str, default=None, help="Valid options are: ['cpu', 'mem', 'delay', 'loss', and 'all']. If 'all' is\nselected, the program will run the root cause analysis for all fault types")
-parser.add_argument("--rq4", action="store_true", help="This flag is used to reproduce the RQ4 results")
-parser.add_argument("--eval-metric", type=str, default="avg5", help="Valid options are: ['top1', 'top3', 'avg5']")
+parser.add_argument("--anomaly-detection", action="store_true",
+    help="Reproduce anomaly detection results."
+)
+parser.add_argument("--saved", action="store_true",
+    help="Use saved anomaly detection results to reproduce the\n"
+         "presented results without rerunning anomaly detection."
+)
+parser.add_argument("--dataset", type=str, default=None,
+    help="Choose a dataset to analyze. Options:\n"
+         "['OnlineBoutique', 'SockShop', and 'TrainTicket']."
+)
+parser.add_argument("--fault-type", type=str, default=None,
+    help="Specify the fault type for root cause analysis.\n"
+         "Options: ['cpu', 'mem', 'delay', 'loss', and 'all'].\n"
+         "If 'all' is selected, the program will run the root\n"
+         "cause analysis for all fault types."
+)
+parser.add_argument("--rq4", action="store_true",
+    help="Reproduce RQ4 results.")
+parser.add_argument("--eval-metric", type=str, default="avg5",
+    help="Evaluation metric for RQ4. Options: ['top1', 'top3',\n"
+        "'avg5']. Default: 'avg5'.")
 
 args = parser.parse_args()
 if args.dataset not in DATASET_MAPS:
