@@ -9,6 +9,7 @@ We assume the users already satisfy the [REQUIREMENTS.md](REQUIREMENTS.md) and h
     + [Create and activate a virtual environment](#create-and-activate-a-virtual-environment)
     + [Install BARO from PyPI or Build BARO from source](#install-baro-from-pypi-or-build-baro-from-source)
   * [Test the installation](#test-the-installation)
+  * [Basic usage example](#basic-usage-example)
  
 ## Installation Instruction
 
