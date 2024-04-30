@@ -155,7 +155,7 @@ def download_data(remote_url=None, local_path=None):
         print("ERROR, something went wrong")
 
 
-def read_data(data_path):
+def read_data(data_path, strip=True):
     """Read csv data for root cause analysis."""    
     data = pd.read_csv(data_path)
     data_dir = os.path.dirname(data_path)
@@ -178,13 +178,14 @@ def read_data(data_path):
         }
     )
 
-    # cut the data into 10 mins
-    data_length = 300
-    with open(join(data_dir, "inject_time.txt")) as f:
-        inject_time = int(f.readlines()[0].strip())
-    normal_df = data[data["time"] < inject_time].tail(data_length)
-    anomal_df = data[data["time"] >= inject_time].head(data_length)
-    data = pd.concat([normal_df, anomal_df], ignore_index=True)    
+    if strip is True:
+        # cut the data into 10 mins
+        data_length = 300
+        with open(join(data_dir, "inject_time.txt")) as f:
+            inject_time = int(f.readlines()[0].strip())
+        normal_df = data[data["time"] < inject_time].tail(data_length)
+        anomal_df = data[data["time"] >= inject_time].head(data_length)
+        data = pd.concat([normal_df, anomal_df], ignore_index=True)    
     return data
 
 def to_service_ranks(ranks):
