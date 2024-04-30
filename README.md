@@ -123,6 +123,7 @@ $ python main.py --dataset OnlineBoutique --anomaly-detection
 <details>
 <summary>Expected output after running the above code (it takes around two hours)</summary>
 
+<br />
 
 The results are a bit better than the numbers presented in the paper (Table 2).
 ```
