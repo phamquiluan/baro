@@ -102,14 +102,14 @@ The description for the arguments/options of the file `main.py` are as follows:
 options:
   -h, --help            show this help message and exit
   --anomaly-detection   This flag is used to reproduce the anomaly detection results. The
-                        program will omit `--fault-type` and `--saved` arguments when using
-                        the `--anomaly-detection` flag.
-  --saved               The program will used the saved anomaly detection results to reproduce
-                        the root cause analysis results without running anomaly detection again.
+                        program will omit the `--fault-type` argument when using the
+                        `--anomaly-detection` flag
+  --saved               This flag is used to use saved anomaly detection results to reproduce
+                        root cause analysis results without running anomaly detection again
   --dataset DATASET     Valid options are: ['OnlineBoutique', 'SockShop', and 'TrainTicket']
   --fault-type FAULT_TYPE
                         Valid options are: ['cpu', 'mem', 'delay', 'loss', and 'all']. If 'all' is
-                        selected, the program will run the root cause analysis for all fault types.
+                        selected, the program will run the root cause analysis for all fault types
 ```
 
 
