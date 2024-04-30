@@ -87,7 +87,7 @@ print("Top 5 root causes:", root_causes[:5])
 <summary>Expected output after running the above code (it takes around 1 minute)</summary>
 
 ```
-$ python test.py
+python test.py
 Downloading data.csv..: 100%|████████████████████████████████| 570k/570k [00:00<00:00, 17.1MiB/s]
 Anomalies are detected at timestep: 243
 Top 5 root causes: ['checkoutservice_latency', 'cartservice_mem', 'cartservice_latency', 'cartservice_cpu', 'main_mem']
@@ -107,7 +107,7 @@ To facilitate the replication of our paper's results, we have included a file na
 
 
 ```bash
-$ python main.py [-h] [--anomaly-detection] [--saved] [--dataset DATASET] [--fault-type FAULT_TYPE] [--rq4] [--eval-metric EVAL_METRIC]
+python main.py [-h] [--anomaly-detection] [--saved] [--dataset DATASET] [--fault-type FAULT_TYPE] [--rq4] [--eval-metric EVAL_METRIC]
 ```
 
 The description for the arguments/options of the file `main.py` are as follows:
@@ -136,7 +136,7 @@ options:
 To reproduce the anomaly detection performance of BARO, as presented in Table 2. You can run the following commands (the corresponding dataset will be automatically downloaded and extracted to folder `./data`):
 
 ```bash
-$ python main.py --dataset OnlineBoutique --anomaly-detection
+python main.py --dataset OnlineBoutique --anomaly-detection
 ```
 
 <details>
@@ -164,7 +164,7 @@ As presented in Table 3, BARO achieves Avg@5 of 0.91, 0.96, 0.95, 0.62, and 0.86
 
 ```bash
 # For Linux users
-$ python main.py --dataset OnlineBoutique --fault-type cpu \
+python main.py --dataset OnlineBoutique --fault-type cpu \
   && python main.py --dataset OnlineBoutique --fault-type mem \
   && python main.py --dataset OnlineBoutique --fault-type delay \
   && python main.py --dataset OnlineBoutique --fault-type loss \
@@ -173,7 +173,7 @@ $ python main.py --dataset OnlineBoutique --fault-type cpu \
 
 ```bash
 # For Windows users
-$ python main.py --dataset OnlineBoutique --fault-type cpu && python main.py --dataset OnlineBoutique --fault-type mem && python main.py --dataset OnlineBoutique --fault-type delay && python main.py --dataset OnlineBoutique --fault-type loss && python main.py --dataset OnlineBoutique --fault-type all 
+python main.py --dataset OnlineBoutique --fault-type cpu && python main.py --dataset OnlineBoutique --fault-type mem && python main.py --dataset OnlineBoutique --fault-type delay && python main.py --dataset OnlineBoutique --fault-type loss && python main.py --dataset OnlineBoutique --fault-type all 
 ```
 
 <details>
@@ -218,7 +218,7 @@ Avg@5 Acc : 0.86
 As presented in Figure 5, BARO maintains stable accuracy on the Online Boutique dataset when we vary `t_bias` from `-40` to `40`. To reproduce this results, you can run the following commands:
 
 ```bash
-$ python main.py --dataset OnlineBoutique --rq4 --eval-metric avg5 
+python main.py --dataset OnlineBoutique --rq4 --eval-metric avg5 
 ```
 
 <details>
