@@ -163,6 +163,7 @@ F1       : 0.87
 As presented in Table 3, BARO achieves Avg@5 of 0.91, 0.96, 0.95, 0.62, and 0.86 for CPU, MEM, DELAY, LOSS, and ALL fault types on the Online Boutique dataset. To reproduce the RCA performance of our BARO as presented in the Table 3. You can run the following commands:
 
 ```bash
+# For Linux users
 $ python main.py --dataset OnlineBoutique --fault-type cpu \
   && python main.py --dataset OnlineBoutique --fault-type mem \
   && python main.py --dataset OnlineBoutique --fault-type delay \
@@ -170,6 +171,10 @@ $ python main.py --dataset OnlineBoutique --fault-type cpu \
   && python main.py --dataset OnlineBoutique --fault-type all \
 ```
 
+```bash
+# For Windows users
+$ python main.py --dataset OnlineBoutique --fault-type cpu && python main.py --dataset OnlineBoutique --fault-type mem && python main.py --dataset OnlineBoutique --fault-type delay && python main.py --dataset OnlineBoutique --fault-type loss && python main.py --dataset OnlineBoutique --fault-type all 
+```
 
 <details>
 <summary>Expected output after running the above code (it takes few seconds)</summary>
