@@ -95,21 +95,27 @@ Top 5 root causes: ['checkoutservice_latency', 'cartservice_mem', 'cartservice_l
 We have provided a file named `main.py` to assist in reproducibility, which can be run using Python with the following syntax:
 
 ```bash
-$ python main.py [-h] [--anomaly-detection] [--saved] [--dataset DATASET] [--fault-type FAULT_TYPE]
+$ python main.py [-h] [--anomaly-detection] [--saved] [--dataset DATASET] [--fault-type FAULT_TYPE] [--rq4] [--eval-metric EVAL_METRIC]
 ```
 
 The description for the arguments/options of the file `main.py` are as follows:
 ```bash
 options:
   -h, --help            show this help message and exit
-  --anomaly-detection   This flag is used to reproduce the anomaly detection results. Using
-                        this flag omits the `--fault-type` argument
-  --saved               This flag is used to use saved anomaly detection results to reproduce
-                        the presented results without running anomaly detection again
-  --dataset DATASET     Valid options are: ['OnlineBoutique', 'SockShop', and 'TrainTicket']
+  --anomaly-detection   Reproduce anomaly detection results.
+  --saved               Use saved anomaly detection results to reproduce the
+                        presented results without rerunning anomaly detection.
+  --dataset DATASET     Choose a dataset to analyze. Options:
+                        ['OnlineBoutique', 'SockShop', and 'TrainTicket'].
   --fault-type FAULT_TYPE
-                        Valid options are: ['cpu', 'mem', 'delay', 'loss', and 'all']. If 'all' is
-                        selected, the program will run the root cause analysis for all fault types
+                        Specify the fault type for root cause analysis.
+                        Options: ['cpu', 'mem', 'delay', 'loss', and 'all'].
+                        If 'all' is selected, the program will run the root
+                        cause analysis for all fault types.
+  --rq4                 Reproduce RQ4 results.
+  --eval-metric EVAL_METRIC
+                        Evaluation metric for RQ4. Options: ['top1', 'top3',
+                        'avg5']. Default: 'avg5'.
 ```
 
 
