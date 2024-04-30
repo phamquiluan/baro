@@ -27,16 +27,29 @@
 
 ## Installation
 
-Install from PyPI
-
-```bash
-pip install fse-baro
-```
-
-Or, build from source
+Clone BARO from GitHub
 
 ```bash
 git clone https://github.com/phamquiluan/baro.git && cd baro
+```
+
+Create and activate a virtual environment
+
+```bash
+# create a virtual environment
+python3.10 -m venv env
+
+# activate the environment
+. env/bin/activate
+```
+
+Install BARO from PyPI or Build BARO from source
+
+```bash
+# install BARO from PyPI
+pip install fse-baro
+
+# build BARO from source
 pip install -e .
 ```
 
@@ -92,7 +105,12 @@ Top 5 root causes: ['checkoutservice_latency', 'cartservice_mem', 'cartservice_l
 
 ## Reproducibility
 
-We have provided a file named `main.py` to assist in reproducibility, which can be run using Python with the following syntax:
+We have provided a file named `main.py` to assist in reproducing the results of our paper, which can be run using Python with the following syntax:
+
+
+To facilitate the replication of our paper's results, we have included a file named main.py. This file can be executed using Python, utilizing the following syntax:
+
+
 
 ```bash
 $ python main.py [-h] [--anomaly-detection] [--saved] [--dataset DATASET] [--fault-type FAULT_TYPE] [--rq4] [--eval-metric EVAL_METRIC]
