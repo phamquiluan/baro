@@ -13,7 +13,7 @@
   * [Installation](#installation)
   * [How-to-use](#how-to-use)
     + [Data format](#data-format)
-    + [Sample Python commands to use BARO](#sample-python-commands-to-use-baro)
+    + [Basic usage example](#basic-usage-example)
   * [Reproducibility](#reproducibility)
     + [Reproduce RQ1 - Anomaly Detection Effectiveness](#reproduce-rq1---anomaly-detection-effectiveness)
     + [Reproduce RQ2 - Root Cause Analysis Effectiveness](#reproduce-rq2---root-cause-analysis-effectiveness)
@@ -49,9 +49,9 @@ BARO has been tested on Linux and Windows, with different Python versions. More 
 The data must be a `pandas.DataFrame` that consists of multivariate time series metrics data. We require the data to have a column named `time` that stores the timestep. Each other column stores a time series for metrics data with the name format of `<service>_<metric>`. For example, the column `cart_cpu` stores the CPU utilization of service `cart`. A sample of valid data could be downloaded using the `download_data()` method that we will demonstrated shortly below.
 
 
-### Sample Python commands to use BARO
+### Basic usage example
 
-BARO consists of two modules, namely MultivariateBOCPD (implemented in `baro.anomaly_detection.bocpd`) and RobustScorer (implemented in `baro.root_cause_analysis.robust_scorer`). We expose these two functions for users/researchers to reuse them more conveniently. The sample commands to run BARO are presented as follows,
+BARO consists of two modules, namely MultivariateBOCPD (implemented in `baro.anomaly_detection.bocpd`) and RobustScorer (implemented in `baro.root_cause_analysis.robust_scorer`). We expose these two functions for users/researchers to reuse them more conveniently. The basic sample commands to run BARO are presented as follows,
 
 ```python
 # You can put the code here to a file named test.py
