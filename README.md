@@ -187,6 +187,24 @@ Avg@5 Acc : 0.86
 </details>
 
 
+### Reproduce RQ4 - Sensitivity Analysis
+
+As presented in Figure 5, BARO maintains stable accuracy on the Online Boutique dataset when we vary `t_bias` from `-40` to `40`. To reproduce this results, you can run the following commands:
+
+```bash
+$ python main.py --dataset OnlineBoutique --rq4 --eval-metric avg5 
+```
+
+<details>
+<summary>Expected output after running the above code (it takes few minutes)</summary>
+
+<br />
+You can see that BARO maintain stable `Avg@5` scores when we vary `t_bias`.
+```
+Running: 100%|███████████████████████████████████████████████████| 40/40 [04:00<00:00,  6.02s/it]
+[0.84, 0.84, 0.84, 0.84, 0.84, 0.84, 0.84, 0.84, 0.84, 0.84, 0.84, 0.85, 0.85, 0.85, 0.85, 0.85, 0.85, 0.85, 0.85, 0.85, 0.86, 0.86, 0.87, 0.87, 0.86, 0.87, 0.87, 0.86, 0.86, 0.86, 0.86, 0.85, 0.85, 0.85, 0.85, 0.84, 0.85, 0.85, 0.85, 0.85]
+```
+</details>
 
 
 
