@@ -121,7 +121,7 @@ options:
 
 ### Reproduce RQ1 - Anomaly Detection Effectiveness
 
-To reproduce the anomaly detection performance of BARO, as presented in Table 2. You can run the following commands:
+To reproduce the anomaly detection performance of BARO, as presented in Table 2. You can run the following commands (the corresponding dataset will be automatically downloaded and extracted to folder `./data`):
 
 ```bash
 $ python main.py --dataset OnlineBoutique --anomaly-detection
