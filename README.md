@@ -223,7 +223,7 @@ Running: 100%|██████████████████████
 
 ## Download Paper
 
-TBD
+The pre-print of our paper is located at [./docs/paper.pdf](./docs/paper.pdf).
 
 ## Download Datasets
 
