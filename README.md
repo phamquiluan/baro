@@ -112,7 +112,7 @@ options:
 
 ### Reproduce RQ1: Anomaly Detection Effectiveness
 
-As presented in Table 2, BARO achieves Precision, Recall and F1-score of 0.69, 1, and 0.82, respectively in anomaly detection, on the Online Boutique dataset. To reproduce the performance of our BARO as presented in the Table 2. You can run the following commands:
+To reproduce the anomaly detection performance of BARO, as presented in Table 2. You can run the following commands:
 
 ```bash
 $ python main.py --dataset OnlineBoutique --anomaly-detection
@@ -121,6 +121,7 @@ $ python main.py --dataset OnlineBoutique --anomaly-detection
 <details>
 <summary>Expected output after running the above code (it takes few seconds)</summary>
 
+The results are a bit better than the numbers presented in the paper.
 ```
 ====== Reproduce BOCPD =====
 Dataset: fse-ob
