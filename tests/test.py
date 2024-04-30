@@ -68,6 +68,7 @@ def test_bocpd_basic():
     assert abs(anomalies[0] - 100) < 10, anomalies
 
 def test_baro():
+    """Test BARO end-to-end"""
     local_path = tempfile.NamedTemporaryFile().name
     download_data(local_path=local_path)
     df = pd.read_csv(local_path)
