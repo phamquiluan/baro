@@ -199,6 +199,12 @@ def to_service_ranks(ranks):
     return service_ranks
 
 
+def select_latency_and_error(data):
+    """Select latency and error columns, retain `time` col"""
+    latency_cols = [c for c in data.columns if "latency" in c]
+    error_cols = [c for c in data.columns if "error" in c]
+    return data[["time"] + latency_cols + error_cols]    
+
 def find_cps(maxes):
     cps = []
     for i in range(1, len(maxes)):
