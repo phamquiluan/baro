@@ -7,7 +7,18 @@ from baro.utility import drop_constant, find_cps
 def nsigma(data, k=3, startsfrom=100):
     """For each time series (column) in the data,
     detect anomalies using the n-sigma rule.
-    Return the timestamps of the anomalies.
+    
+    Parameters:
+    - data : pandas DataFrame
+        The input data containing time series columns.
+    - k : int, optional
+        The number of standard deviations from the mean to consider as an anomaly. Default is 3.
+    - startsfrom : int, optional
+        The index from which to start calculating mean and standard deviation. Default is 100.
+        
+    Returns:
+    - anomalies : list
+        List of timestamps where anomalies were detected.
     """
     anomalies = []
     for col in data.columns:
@@ -25,6 +36,22 @@ def nsigma(data, k=3, startsfrom=100):
 
 
 def find_anomalies(data, time_col=None,threshold=0.01):
+    """Find anomalies in the data based on a given threshold.
+    
+    Parameters:
+    - data : list or numpy array
+        The input data to search for anomalies.
+    - time_col : pandas Series, optional
+        The timestamps corresponding to the data. Default is None.
+    - threshold : float, optional
+        The threshold value above which a data point is considered an anomaly. Default is 0.01.
+        
+    Returns:
+    - merged_anomalies : list
+        List of merged timestamps where anomalies were detected.
+    - anomalies : list
+        List of timestamps where anomalies were detected.
+    """
     anomalies = []
     for i in range(1, len(data)):
         if data[i] > threshold:
@@ -48,6 +75,16 @@ def find_anomalies(data, time_col=None,threshold=0.01):
 
 
 def bocpd(data):
+    """Perform Multivariate Bayesian Online Change Point Detection (BOCPD) on the input data.
+    
+    Parameters:
+    - data : pandas DataFrame
+        The input data containing metrics from microservices.
+        
+    Returns:
+    - anomalies : list
+        List of timestamps where anomalies were detected.
+    """
     from functools import partial
     from baro._bocpd import online_changepoint_detection, constant_hazard, MultivariateT
     data = data.copy()

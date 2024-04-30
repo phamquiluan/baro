@@ -5,6 +5,16 @@ from .utility import drop_time, drop_constant, drop_near_constant
 
 
 def select_useful_cols(data):
+    """Select useful columns from the dataset based on certain criteria.
+    
+    Parameters:
+    - data : pandas.DataFrame
+        The dataset to select columns from.
+        
+    Returns:
+    - selected_cols : list
+        A list of selected column names.
+    """
     selected_cols = []
     for c in data.columns:
         # keep time
@@ -28,6 +38,16 @@ def select_useful_cols(data):
 
 
 def drop_extra(df: pd.DataFrame):
+    """Drop extra columns from the DataFrame.
+    
+    Parameters:
+    - df : pandas.DataFrame
+        The DataFrame to remove extra columns from.
+        
+    Returns:
+    - df : pandas.DataFrame
+        The DataFrame after removing extra columns.
+    """
     if "time.1" in df:
         df = df.drop(columns=["time.1"])
 
@@ -52,6 +72,16 @@ def drop_extra(df: pd.DataFrame):
 
 
 def convert_mem_mb(df: pd.DataFrame):
+    """Convert memory values in the DataFrame to MBs.
+    
+    Parameters:
+    - df : pandas.DataFrame
+        The DataFrame containing memory values.
+        
+    Returns:
+    - df : pandas.DataFrame
+        The DataFrame with memory values converted to MBs.
+    """
     # Convert memory to MBs
     def update_mem(x):
         if not x.name.endswith("_mem"):
@@ -64,6 +94,20 @@ def convert_mem_mb(df: pd.DataFrame):
 
 
 def preprocess(data, dataset=None, dk_select_useful=False):
+    """Preprocess the dataset.
+    
+    Parameters:
+    - data : pandas.DataFrame
+        The dataset to preprocess.
+    - dataset : str, optional
+        The dataset name. Default is None.
+    - dk_select_useful : bool, optional
+        Whether to select useful columns. Default is False.
+        
+    Returns:
+    - data : pandas.DataFrame
+        The preprocessed dataset.
+    """
     data = drop_constant(drop_time(data))
     data = convert_mem_mb(data)
 
@@ -78,6 +122,28 @@ def preprocess(data, dataset=None, dk_select_useful=False):
 
 
 def nsigma(data, inject_time=None, dataset=None, num_loop=None, sli=None, anomalies=None, **kwargs):
+    """Perform nsigma analysis on the dataset.
+    
+    Parameters:
+    - data : pandas.DataFrame
+        The dataset to perform nsigma analysis on.
+    - inject_time : int, optional
+        The time of injection of anomalies. Default is None.
+    - dataset : str, optional
+        The dataset name. Default is None.
+    - num_loop : int, optional
+        Number of loops. Default is None.
+    - sli : int, optional
+        SLI (Service Level Indicator). Default is None.
+    - anomalies : list, optional
+        List of anomalies. Default is None.
+    - kwargs : dict
+        Additional keyword arguments.
+        
+    Returns:
+    - dict
+        A dictionary containing node names and ranks.
+    """
     if anomalies is None:
         normal_df = data[data["time"] < inject_time]
         anomal_df = data[data["time"] >= inject_time]
@@ -122,6 +188,28 @@ def nsigma(data, inject_time=None, dataset=None, num_loop=None, sli=None, anomal
 def robust_scorer(
     data, inject_time=None, dataset=None, num_loop=None, sli=None, anomalies=None, **kwargs
 ):
+    """Perform root cause analysis using RobustScorer.
+    
+    Parameters:
+    - data : pandas.DataFrame
+        The datas to perform RobustScorer.
+    - inject_time : int, optional
+        The time of fault injection time. Default is None.
+    - dataset : str, optional
+        The dataset name. Default is None.
+    - num_loop : int, optional
+        Number of loops. Default is None. Just for future API compatible
+    - sli : int, optional
+        SLI (Service Level Indicator). Default is None. Just for future API compatible
+    - anomalies : list, optional
+        List of anomalies. Default is None.
+    - kwargs : dict
+        Additional keyword arguments.
+        
+    Returns:
+    - dict
+        A dictionary containing node names and ranks. `ranks` is a ranked list of root causes.
+    """
     if anomalies is None:
         normal_df = data[data["time"] < inject_time]
         anomal_df = data[data["time"] >= inject_time]

@@ -1,5 +1,6 @@
-# The code is shamelessly copied and developed from 
+# Acknowledgement: The code is copied and developed from 
 # https://github.com/hildensia/bayesian_changepoint_detection/tree/master/bayesian_changepoint_detection
+
 from abc import ABC, abstractmethod
 
 import numpy as np

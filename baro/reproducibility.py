@@ -26,6 +26,14 @@ from baro.root_cause_analysis import robust_scorer
 
 
 def reproduce_baro(dataset=None, fault=None):
+    """Reproduce BARO results for the given dataset and fault type.
+    
+    Parameters:
+    - dataset : str, optional
+        The dataset to reproduce results for. Supported values are "fse-ob" (Online Boutique), "fse-ss" (Sock Shop), and "fse-tt" (Train Ticket).
+    - fault : str, optional
+        The type of fault to consider. Supported values are "cpu", "mem", "delay", "loss", or "all" (for all fault types). Default is None.
+    """
     assert dataset in ["fse-ob", "fse-ss", "fse-tt"], f"{dataset} is not supported!"
     assert fault in [None, "all", "cpu", "mem", "delay", "loss"], f"{fault} is not supported!"
     if fault is None:
@@ -90,6 +98,14 @@ def reproduce_baro(dataset=None, fault=None):
     
 
 def reproduce_bocpd(dataset=None, saved=False):
+    """Reproduce Multivariate BOCPD results for the given dataset.
+    
+    Parameters:
+    - dataset : str, optional
+        The dataset to reproduce results for. Supported values are "fse-ob" (Online Boutique), "fse-ss" (Sock Shop), and "fse-tt" (Train Ticket).
+    - saved : bool, optional
+        If True, load precomputed results. If False, run BOCPD algorithm again. Default is False.
+    """
     assert dataset in ["fse-ob", "fse-ss", "fse-tt"], f"{dataset} is not supported!"
     
     if not os.path.exists(f"data/{dataset}"):
@@ -172,6 +188,14 @@ def reproduce_bocpd(dataset=None, saved=False):
     
     
 def reproduce_rq4(dataset=None, eval_metric=None):
+    """Reproduce RQ4 results for the given dataset and evaluation metric.
+    
+    Parameters:
+    - dataset : str, optional
+        The dataset to reproduce results for. Supported values are "fse-ob" (Online Boutique), "fse-ss" (Sock Shop), and "fse-tt" (Train Ticket).
+    - eval_metric : str, optional
+        The evaluation metric to use. Supported values are "top1", "top3", "avg5", or None (default, which equals to "avg5").
+    """
     assert dataset in ["fse-ob", "fse-ss", "fse-tt"], f"{dataset} is not supported!"
     assert eval_metric in [None, "top1", "top3", "avg5"], f"{eval_metric} is not supported!"
     

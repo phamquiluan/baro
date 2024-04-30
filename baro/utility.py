@@ -13,9 +13,7 @@ import matplotlib.pyplot as plt
 
 
 def download_online_boutique_dataset(local_path=None):
-    """
-    Download the Online Boutique dataset from Zenodo.
-    """
+    """Download the Online Boutique dataset from Zenodo."""
     if local_path == None:
         local_path = "data"
     if not os.path.exists(local_path):
@@ -29,9 +27,7 @@ def download_online_boutique_dataset(local_path=None):
 
 
 def download_sock_shop_dataset(local_path=None):
-    """
-    Download the Sock Shop dataset from Zenodo. 
-    """
+    """Download the Sock Shop dataset from Zenodo."""
     if local_path == None:
         local_path = "data"
     if not os.path.exists(local_path):
@@ -45,9 +41,7 @@ def download_sock_shop_dataset(local_path=None):
 
 
 def download_train_ticket_dataset(local_path=None):
-    """
-    Download the Train Ticket dataset from Zenodo. 
-    """
+    """Download the Train Ticket dataset from Zenodo."""
     if local_path == None:
         local_path = "data"
     if not os.path.exists(local_path):
@@ -61,20 +55,24 @@ def download_train_ticket_dataset(local_path=None):
     
 
 def load_json(filename: str):
+    """Load data from a JSON file."""
     with open(filename) as f:
         data = json.load(f)
     return data
               
               
 def drop_constant(df: pd.DataFrame):
+    """Drop constant columns from the DataFrame."""
     return df.loc[:, (df != df.iloc[0]).any()]
 
 
 def drop_near_constant(df: pd.DataFrame, threshold: float = 0.1):
+    """Drop columns with near-constant values from the DataFrame."""
     return df.loc[:, (df != df.iloc[0]).mean() > threshold]
 
 
 def drop_time(df: pd.DataFrame):
+    """Drop time-related columns from the DataFrame."""
     if "time" in df:
         df = df.drop(columns=["time"])
     if "Time" in df:
@@ -85,7 +83,7 @@ def drop_time(df: pd.DataFrame):
 
 
 def visualize_metrics(data: pd.DataFrame, filename=None, figsize=None):
-    """Visualize the metrics."""
+    """Visualize metrics from the DataFrame."""
     if figsize is None:
         figsize = (25, 25)
 
@@ -128,7 +126,7 @@ def visualize_metrics(data: pd.DataFrame, filename=None, figsize=None):
 
 
 def download_data(remote_url=None, local_path=None):
-    """Download sample metrics data""" 
+    """Download data from a remote URL."""
     if remote_url is None:
         remote_url = "https://github.com/phamquiluan/baro/releases/download/0.0.4/simple_data.csv"
     if local_path is None:
@@ -156,7 +154,7 @@ def download_data(remote_url=None, local_path=None):
 
 
 def read_data(data_path, strip=True):
-    """Read csv data for root cause analysis."""    
+    """Read CSV data for root cause analysis."""
     data = pd.read_csv(data_path)
     data_dir = os.path.dirname(data_path)
 
@@ -189,7 +187,7 @@ def read_data(data_path, strip=True):
     return data
 
 def to_service_ranks(ranks):
-    """Convert fine-grained ranking to service ranks"""
+    """Convert fine-grained ranking to service ranks."""
     _service_ranks = [r.split("_")[0] for r in ranks]
     service_ranks = []
     # remove duplicates
@@ -206,6 +204,7 @@ def select_latency_and_error(data):
     return data[["time"] + latency_cols + error_cols]    
 
 def find_cps(maxes):
+    """Find change points given a `maxes` array."""
     cps = []
     for i in range(1, len(maxes)):
         if abs(maxes[i] - maxes[i-1]) > 1:
