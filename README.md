@@ -110,82 +110,62 @@ options:
 ```
 
 
+
+### RQ2: Root Cause Analysis Effectiveness
+
 As presented in Table 3, BARO achieves Avg@5 of 0.91, 0.96, 0.95, 0.62, and 0.86 for CPU, MEM, DELAY, LOSS, and ALL fault types on the Online Boutique dataset. To reproduce the RCA performance of our BARO as presented in the Table 3. You can run the following commands:
 
-**Reproduce RCA performance on the Online Boutique dataset, fault type CPU**
-
 ```bash
-$ python main.py --dataset OnlineBoutique --fault-type cpu
+$ python main.py --dataset OnlineBoutique --fault-type cpu \
+  && python main.py --dataset OnlineBoutique --fault-type mem \
+  && python main.py --dataset OnlineBoutique --fault-type delay \
+  && python main.py --dataset OnlineBoutique --fault-type loss \
+  && python main.py --dataset OnlineBoutique --fault-type all \
 ```
 
-Expected output
+
+<details>
+<summary>Expected output after running the above code (it takes few seconds)</summary>
 
 ```
+Running: 100%|███████████████████████████████████████████████████| 25/25 [00:02<00:00, 11.94it/s]
 ====== Reproduce BARO =====
 Dataset   : fse-ob
 Fault type: cpu
 Avg@5 Acc : 0.91
-```
 
-**Reproduce RCA performance on the Online Boutique dataset, fault type MEM**
-
-```bash
-$ python main.py --dataset OnlineBoutique --fault-type mem
-```
-
-Expected output
-
-```
+Running: 100%|███████████████████████████████████████████████████| 25/25 [00:02<00:00, 12.10it/s]
 ====== Reproduce BARO =====
 Dataset   : fse-ob
 Fault type: mem
 Avg@5 Acc : 0.96
-```
 
-**Reproduce RCA performance on the Online Boutique dataset, fault type DELAY**
-
-```bash
-$ python main.py --dataset OnlineBoutique --fault-type delay
-```
-
-Expected output
-
-```
+Running: 100%|███████████████████████████████████████████████████| 25/25 [00:01<00:00, 12.73it/s]
 ====== Reproduce BARO =====
 Dataset   : fse-ob
 Fault type: delay
 Avg@5 Acc : 0.95
-```
 
-**Reproduce RCA performance on the Online Boutique dataset, fault type LOSS**
-
-```bash
-$ python main.py --dataset OnlineBoutique --fault-type loss
-```
-
-Expected output
-
-```
+Running: 100%|███████████████████████████████████████████████████| 25/25 [00:02<00:00, 12.35it/s]
 ====== Reproduce BARO =====
 Dataset   : fse-ob
 Fault type: loss
 Avg@5 Acc : 0.62
-```
 
-**Reproduce RCA performance on the Online Boutique dataset, fault type ALL**
-
-```bash
-$ python main.py --dataset OnlineBoutique --fault-type all
-```
-
-Expected output
-
-```
+Running: 100%|█████████████████████████████████████████████████| 100/100 [00:06<00:00, 15.82it/s]
 ====== Reproduce BARO =====
 Dataset   : fse-ob
 Fault type: all
 Avg@5 Acc : 0.86
 ```
+</details>
+
+
+
+
+
+
+
 
 
 
