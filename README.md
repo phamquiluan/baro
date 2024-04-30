@@ -33,16 +33,6 @@ Clone BARO from GitHub
 git clone https://github.com/phamquiluan/baro.git && cd baro
 ```
 
-Create and activate a virtual environment
-
-```bash
-# create a virtual environment
-python3.10 -m venv env
-
-# activate the environment
-. env/bin/activate
-```
-
 Install BARO from PyPI or Build BARO from source
 
 ```bash
