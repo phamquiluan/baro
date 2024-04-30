@@ -134,7 +134,7 @@ F1       : 0.87
 ```
 </details>
 
-You can also checked the [tutorials/reproduce_multivariate_bocpd.ipynb](tutorials/reproduce_multivariate_bocpd.ipynb) to reproduce the saved anomalies in our datasets.
+👉 You can also checked the [tutorials/reproduce_multivariate_bocpd.ipynb](tutorials/reproduce_multivariate_bocpd.ipynb) to reproduce the saved anomalies in our datasets.
 
 ### Reproduce RQ2 - Root Cause Analysis Effectiveness
 
