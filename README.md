@@ -184,6 +184,30 @@ Our datasets are publicly available in Zenodo repository with the following info
 - Dataset DOI: [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.11046533.svg)](https://doi.org/10.5281/zenodo.11046533)
 - Dataset URL: https://zenodo.org/records/11046533
 
+We also provide utility functions to download our datasets using Python. The downloaded datasets will be available at directory `data`.
+
+```python
+from baro.utility import (
+    download_online_boutique_dataset,
+    download_sock_shop_dataset,
+    download_train_ticket_dataset,
+)
+download_online_boutique_dataset()
+download_sock_shop_dataset()
+download_train_ticket_dataset()
+```
+<details>
+<summary>Expected output after running the above code (it takes few minutes to download our datasets)</summary>
+
+```
+$ python test.py
+Downloading fse-ob.zip..: 100%|██████████| 151M/151M [01:03<00:00, 2.38MiB/s]
+Downloading fse-ss.zip..: 100%|██████████| 127M/127M [00:23<00:00, 5.49MiB/s]
+Downloading fse-tt.zip..: 100%|██████████| 286M/286M [00:56<00:00, 5.10MiB/s]
+```
+</details>
+
+
 ## Running Time and Instrumentation Cost
 
 Please refer to our [docs/running_time_and_instrumentation_cost.md](docs/running_time_and_instrumentation_cost.md) document.
