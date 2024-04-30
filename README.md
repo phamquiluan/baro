@@ -101,11 +101,10 @@ The description for the arguments/options of the file `main.py` are as follows:
 ```bash
 options:
   -h, --help            show this help message and exit
-  --anomaly-detection   This flag is used to reproduce the anomaly detection results. The
-                        program will omit the `--fault-type` argument when using the
-                        `--anomaly-detection` flag
+  --anomaly-detection   This flag is used to reproduce the anomaly detection results. Using
+                        this flag omits the `--fault-type` argument
   --saved               This flag is used to use saved anomaly detection results to reproduce
-                        root cause analysis results without running anomaly detection again
+                        the presented results without running anomaly detection again
   --dataset DATASET     Valid options are: ['OnlineBoutique', 'SockShop', and 'TrainTicket']
   --fault-type FAULT_TYPE
                         Valid options are: ['cpu', 'mem', 'delay', 'loss', and 'all']. If 'all' is
