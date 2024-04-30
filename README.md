@@ -20,6 +20,7 @@
   * [Download Paper](#download-paper)
   * [Download Datasets](#download-datasets)
   * [Running Time and Instrumentation Cost](#running-time-and-instrumentation-cost)
+  * [Supplementary materials](#supplementary-materials)
   * [Citation](#citation)
   * [Contact](#contact)
 
