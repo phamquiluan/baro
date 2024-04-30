@@ -51,7 +51,7 @@ download_data()
 
 # read data, perform anomaly detection and rca using bocpd and robust_scorer
 data = read_data("data.csv")
-anomalies = bocpd(data)  # data format and visualization are described in the Colab notebook above.
+anomalies = bocpd(data)
 root_causes = robust_scorer(data, anomalies=anomalies)
 print(root_causes)
 ```
