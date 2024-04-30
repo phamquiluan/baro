@@ -168,3 +168,70 @@ def reproduce_bocpd(dataset=None, saved=False):
     print(f"Precision: {precision:.2f}")
     print(f"Recall   : {recall:.2f}")
     print(f"F1       : {f1:.2f}")
+    
+    
+    
+def reproduce_rq4(dataset=None, score=None):
+    assert dataset in ["fse-ob", "fse-ss", "fse-tt"], f"{dataset} is not supported!"
+    assert score in [None, "top1", "top3", "avg5"], f"{score} is not supported!"
+    
+    if score is None:
+        score = "avg5"
+    
+    if not os.path.exists(f"data/{dataset}"):
+        if dataset == "fse-ob":
+            download_online_boutique_dataset()
+        elif dataset == "fse-ss":
+            download_sock_shop_dataset()
+        elif dataset == "fse-tt":
+            download_train_ticket_dataset()
+    
+    data_paths = list(glob.glob(f"./data/{dataset}/**/simple_data.csv", recursive=True))
+    
+    scores = []
+    for t_bias in range(-40, 40, 2):
+        top1_cnt, top2_cnt, top3_cnt, top4_cnt, top5_cnt, total_cnt = 0, 0, 0, 0, 0, 0
+
+        for data_path in tqdm(data_paths, desc=f"Running"):
+            # read data
+            data = read_data(data_path)
+            data_dir = os.path.dirname(data_path)
+            service, metric = basename(dirname(dirname(data_path))).split("_")
+
+            ############# READ INJECT TIME ###############
+            with open(join(data_dir, "inject_time.txt")) as f:
+                inject_time = int(f.readlines()[0].strip()) + t_bias
+
+            ############# ROOT CAUSE ANALYSIS ###############
+            ranks = robust_scorer(data, inject_time=inject_time)["ranks"]
+            service_ranks = to_service_ranks(ranks)
+
+            ############## EVALUATION ###############
+            if service in service_ranks[:1]:
+                top1_cnt += 1
+            if service in service_ranks[:2]:
+                top2_cnt += 1
+            if service in service_ranks[:3]:
+                top3_cnt += 1
+            if service in service_ranks[:4]:
+                top4_cnt += 1
+            if service in service_ranks[:5]:
+                top5_cnt += 1
+            total_cnt += 1
+
+        ############## EVALUATION ###############
+        top1_accuracy = top1_cnt / total_cnt
+        top2_accuracy = top2_cnt / total_cnt
+        top3_accuracy = top3_cnt / total_cnt
+        top4_accuracy = top4_cnt / total_cnt
+        top5_accuracy = top5_cnt / total_cnt
+        avg5_accuracy = (top1_accuracy + top2_accuracy + top3_accuracy + top4_accuracy + top5_accuracy) / 5
+        
+        if score == "top1":
+            scores.append(top1_accuracy)
+        elif score == "top3":
+            scores.append(top3_accuracy)
+        elif score == "avg5":
+            scores.append(avg5_accuracy)    
+            
+    print(scores)
