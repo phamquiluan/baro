@@ -6,4 +6,5 @@ We recommend using machines equipped with at least 8 cores, 16GB RAM, and ~10GB 
 - We develop BARO using Python 3.10.
 - We encourage user to create a virtual environment to use BARO (e.g., `python3.10 -m venv env`).
 - BARO could be installed using pip. (e.g., `pip install fse-baro`).
-- BARO requires "numpy", "pandas", "scikit-learn", "pytest", "tqdm", "requests", and "matplotlib" packages. These dependencies are described in the [pyproject.toml](pyproject.toml) file.
+- BARO requires the following packages: "numpy", "pandas", "scikit-learn", "pytest", "tqdm", "requests", and "matplotlib". These dependencies are described in the [pyproject.toml](pyproject.toml) file.  We adhere to [PEP 735](https://peps.python.org/pep-0735/) for storing package requirements in the `pyproject.toml` file rather than the `requirements.txt` file.
+
