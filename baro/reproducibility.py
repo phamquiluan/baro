@@ -171,12 +171,12 @@ def reproduce_bocpd(dataset=None, saved=False):
     
     
     
-def reproduce_rq4(dataset=None, score=None):
+def reproduce_rq4(dataset=None, eval_metric=None):
     assert dataset in ["fse-ob", "fse-ss", "fse-tt"], f"{dataset} is not supported!"
-    assert score in [None, "top1", "top3", "avg5"], f"{score} is not supported!"
+    assert eval_metric in [None, "top1", "top3", "avg5"], f"{eval_metric} is not supported!"
     
-    if score is None:
-        score = "avg5"
+    if eval_metric is None:
+        eval_metric = "avg5"
     
     if not os.path.exists(f"data/{dataset}"):
         if dataset == "fse-ob":
@@ -189,10 +189,10 @@ def reproduce_rq4(dataset=None, score=None):
     data_paths = list(glob.glob(f"./data/{dataset}/**/simple_data.csv", recursive=True))
     
     scores = []
-    for t_bias in range(-40, 40, 2):
+    for t_bias in tqdm(range(-40, 40, 2), desc="Running"):
         top1_cnt, top2_cnt, top3_cnt, top4_cnt, top5_cnt, total_cnt = 0, 0, 0, 0, 0, 0
 
-        for data_path in tqdm(data_paths, desc=f"Running"):
+        for data_path in data_paths:
             # read data
             data = read_data(data_path)
             data_dir = os.path.dirname(data_path)
@@ -227,11 +227,11 @@ def reproduce_rq4(dataset=None, score=None):
         top5_accuracy = top5_cnt / total_cnt
         avg5_accuracy = (top1_accuracy + top2_accuracy + top3_accuracy + top4_accuracy + top5_accuracy) / 5
         
-        if score == "top1":
+        if eval_metric == "top1":
             scores.append(top1_accuracy)
-        elif score == "top3":
+        elif eval_metric == "top3":
             scores.append(top3_accuracy)
-        elif score == "avg5":
+        elif eval_metric == "avg5":
             scores.append(avg5_accuracy)    
             
-    print(scores)
+    print([round(s, 2) for s in scores])
