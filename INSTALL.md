@@ -78,4 +78,4 @@ tests/test.py ....                                                              
 
 ## Basic usage example
 
-Users can check a basic usage example of BARO in the [README.md#basic-usage-example](https://github.com/phamquiluan/baro/blob/main/README.md#basic-usage-example) section.
+Users can check a basic usage example of BARO in the [README.md#basic-usage-example](https://github.com/phamquiluan/baro/blob/main/README.md#how-to-use) section.
