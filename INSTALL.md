@@ -1,6 +1,6 @@
 # Installation
 
-We assume the users already satisfy the [REQUIREMENTS.md](REQUIREMENTS.md) and ready to have Python 3.10 installed. Then, users can install BARO from PyPI or build BARO from source. In addition, users who familiar with Continuous Integration (CI) can take a look at our [build-and-test.yml](https://github.com/phamquiluan/baro/blob/main/.github/workflows/build-and-test.yml) configuration to see how we test our BARO on Linux and Windows machine from Python 3.7 to 3.12.
+We assume the users already satisfy the [REQUIREMENTS.md](REQUIREMENTS.md) and ready to have Python 3.10 installed. Then, users can install BARO from PyPI or build BARO from source. In addition, users who familiar with Continuous Integration (CI) can take a look at our [build-and-test.yml](https://github.com/phamquiluan/baro/blob/main/.github/workflows/build-and-test.yml) configuration to see how we install and test our BARO on Linux and Windows machine from Python 3.7 to 3.12.
 
 **Table of contents**
   * [Installation Instruction](#installation-instruction)
