@@ -245,7 +245,7 @@ Running: 100%|██████████████████████
 
 ## Download Paper
 
-Our paper is located at [./docs/paper.pdf](./docs/paper.pdf).
+The preprint of our paper could be downloaded at [https://arxiv.org/abs/2405.09330](https://arxiv.org/abs/2405.09330).
 
 ## Download Datasets
 
