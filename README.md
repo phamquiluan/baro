@@ -290,12 +290,22 @@ You can download our supplementary materials from [docs/fse_baro_supplementary_m
 ## Citation
 
 ```
-@inproceedings{pham2024baro,
-  title={BARO: Robust Root Cause Analysis for Microservices via Multivariate Bayesian Online Change Point Detection},
-  author={Luan Pham, Huong Ha, and Hongyu Zhang},
-  booktitle={Proceedings of the ACM on Software Engineering, Vol 1},
-  year={2024},
-  organization={ACM}
+@article{pham2024baro,
+author = {Pham, Luan and Ha, Huong and Zhang, Hongyu},
+title = {BARO: Robust Root Cause Analysis for Microservices via Multivariate Bayesian Online Change Point Detection},
+year = {2024},
+issue_date = {July 2024},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+volume = {1},
+number = {FSE},
+url = {https://doi.org/10.1145/3660805},
+doi = {10.1145/3660805},
+journal = {Proc. ACM Softw. Eng.},
+month = {jul},
+articleno = {98},
+numpages = {24},
+keywords = {Anomaly Detection, Microservice Systems, Root Cause Analysis}
 }
 ```
 
