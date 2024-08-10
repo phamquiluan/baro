@@ -245,7 +245,7 @@ Running: 100%|██████████████████████
 
 ## Download Paper
 
-Our paper could be downloaded at [docs/paper.pdf](docs/paper.pdf).
+Our paper could be downloaded at [docs/paper.pdf](docs/paper.pdf) or at [doi/10.1145/3660805](https://dl.acm.org/doi/10.1145/3660805).
 
 ## Download Datasets
 
