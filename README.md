@@ -102,11 +102,6 @@ Top 5 root causes: ['checkoutservice_latency', 'cartservice_mem', 'cartservice_l
 
 We have provided a file named `main.py` to assist in reproducing the results of our paper, which can be run using Python with the following syntax:
 
-
-To facilitate the replication of our paper's results, we have included a file named main.py. This file can be executed using Python, utilizing the following syntax:
-
-
-
 ```bash
 python main.py [-h] [--anomaly-detection] [--saved] [--dataset DATASET] [--fault-type FAULT_TYPE] [--rq4] [--eval-metric EVAL_METRIC]
 ```
