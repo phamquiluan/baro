@@ -306,4 +306,4 @@ keywords = {Anomaly Detection, Microservice Systems, Root Cause Analysis}
 
 ## Contact
 
-[luan.pham\@rmit.edu.au](mailto:luan.pham@rmit.edu.au?subject=BARO)
+[phamquiluan\@gmail.com](mailto:phamquiluan@gmail.com?subject=BARO)
