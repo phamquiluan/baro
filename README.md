@@ -7,7 +7,7 @@
 [![Build and test](https://github.com/phamquiluan/baro/actions/workflows/build-and-test.yml/badge.svg?branch=main)](https://github.com/phamquiluan/baro/actions/workflows/build-and-test.yml)
 [![Upload Python Package](https://github.com/phamquiluan/baro/actions/workflows/python-publish.yml/badge.svg)](https://github.com/phamquiluan/baro/actions/workflows/python-publish.yml)
 
-**BARO** is an end-to-end anomaly detection and root cause analysis approach for microservices failures. This repository includes artifacts for reuse and reproduction of experimental results presented in our FSE'24 paper titled _"BARO: Robust Root Cause Analysis for Microservices via Multivariate Bayesian Online Change Point Detection"_.
+**BARO** is an end-to-end anomaly detection and root cause analysis approach for microservices failures. This repository includes artifacts for reuse and reproduction of experimental results presented in our FSE'24 paper titled _"BARO: Robust Root Cause Analysis for Microservices via Multivariate Bayesian Online Change Point Detection"_. 
 
 **Table of Contents**
   * [Installation](#installation)
@@ -27,6 +27,8 @@
   * [Contact](#contact)
 
 ## Installation
+
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/phamquiluan/baro/blob/main/tutorials/how-to-use-baro.ipynb)
 
 Clone BARO from GitHub
 
