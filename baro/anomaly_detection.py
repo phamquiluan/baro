@@ -95,7 +95,8 @@ def bocpd(data):
         if 'queue-master' in c or 'rabbitmq_' in c: continue
         if "latency" in c or "latency-50" in c or "_error" in c:
             selected_cols.append(c)
-    data = data[selected_cols]
+    if selected_cols:
+        data = data[selected_cols]
 
     # handle na
     data = drop_constant(data)
