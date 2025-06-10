@@ -100,11 +100,11 @@ def bocpd(data):
 
     # handle na
     data = drop_constant(data)
-    data = data.fillna(method="ffill")
+    data = data.ffill()
     data = data.fillna(0)
     for c in data.columns:
         data[c] = (data[c] - np.min(data[c])) / (np.max(data[c]) - np.min(data[c]))
-    data = data.fillna(method="ffill")
+    data = data.ffill()
     data = data.fillna(0)
         
     data = data.to_numpy()
