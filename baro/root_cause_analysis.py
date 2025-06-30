@@ -1,16 +1,19 @@
 import pandas as pd
-from sklearn.preprocessing import RobustScaler, StandardScaler
+import numpy as np
+from sklearn.preprocessing import StandardScaler
+from scipy.stats import gaussian_kde
+
 
 from .utility import drop_time, drop_constant, drop_near_constant
 
 
 def select_useful_cols(data):
     """Select useful columns from the dataset based on certain criteria.
-    
+
     Parameters:
     - data : pandas.DataFrame
         The dataset to select columns from.
-        
+
     Returns:
     - selected_cols : list
         A list of selected column names.
@@ -36,14 +39,13 @@ def select_useful_cols(data):
     return selected_cols
 
 
-
 def drop_extra(df: pd.DataFrame):
     """Drop extra columns from the DataFrame.
-    
+
     Parameters:
     - df : pandas.DataFrame
         The DataFrame to remove extra columns from.
-        
+
     Returns:
     - df : pandas.DataFrame
         The DataFrame after removing extra columns.
@@ -69,19 +71,18 @@ def drop_extra(df: pd.DataFrame):
     return df
 
 
-
-
 def convert_mem_mb(df: pd.DataFrame):
     """Convert memory values in the DataFrame to MBs.
-    
+
     Parameters:
     - df : pandas.DataFrame
         The DataFrame containing memory values.
-        
+
     Returns:
     - df : pandas.DataFrame
         The DataFrame with memory values converted to MBs.
     """
+
     # Convert memory to MBs
     def update_mem(x):
         if not x.name.endswith("_mem"):
@@ -95,7 +96,7 @@ def convert_mem_mb(df: pd.DataFrame):
 
 def preprocess(data, dataset=None, dk_select_useful=False):
     """Preprocess the dataset.
-    
+
     Parameters:
     - data : pandas.DataFrame
         The dataset to preprocess.
@@ -103,7 +104,7 @@ def preprocess(data, dataset=None, dk_select_useful=False):
         The dataset name. Default is None.
     - dk_select_useful : bool, optional
         Whether to select useful columns. Default is False.
-        
+
     Returns:
     - data : pandas.DataFrame
         The preprocessed dataset.
@@ -118,12 +119,17 @@ def preprocess(data, dataset=None, dk_select_useful=False):
     return data
 
 
-
-
-
-def nsigma(data, inject_time=None, dataset=None, num_loop=None, sli=None, anomalies=None, **kwargs):
+def nsigma(
+    data,
+    inject_time=None,
+    dataset=None,
+    num_loop=None,
+    sli=None,
+    anomalies=None,
+    **kwargs,
+):
     """Perform nsigma analysis on the dataset.
-    
+
     Parameters:
     - data : pandas.DataFrame
         The dataset to perform nsigma analysis on.
@@ -139,7 +145,7 @@ def nsigma(data, inject_time=None, dataset=None, num_loop=None, sli=None, anomal
         List of anomalies. Default is None.
     - kwargs : dict
         Additional keyword arguments.
-        
+
     Returns:
     - dict
         A dictionary containing node names and ranks.
@@ -153,11 +159,15 @@ def nsigma(data, inject_time=None, dataset=None, num_loop=None, sli=None, anomal
         anomal_df = data.tail(len(data) - anomalies[0])
 
     normal_df = preprocess(
-        data=normal_df, dataset=dataset, dk_select_useful=kwargs.get("dk_select_useful", False)
+        data=normal_df,
+        dataset=dataset,
+        dk_select_useful=kwargs.get("dk_select_useful", False),
     )
 
     anomal_df = preprocess(
-        data=anomal_df, dataset=dataset, dk_select_useful=kwargs.get("dk_select_useful", False)
+        data=anomal_df,
+        dataset=dataset,
+        dk_select_useful=kwargs.get("dk_select_useful", False),
     )
 
     # intersect
@@ -185,11 +195,57 @@ def nsigma(data, inject_time=None, dataset=None, num_loop=None, sli=None, anomal
     }
 
 
+def kde_cdf_fast(a: np.ndarray, b: np.ndarray, num_points=1000) -> np.ndarray:
+    """
+    Estimate the cumulative distribution function (CDF) of array `a` using kernel density estimation (KDE),
+    and evaluate the CDF at the values in array `b`.
+
+    Parameters
+    ----------
+    a : np.ndarray
+        1D array of samples used to fit the KDE and estimate the CDF.
+    b : np.ndarray
+        1D array of values at which to evaluate the estimated CDF.
+    num_points : int, optional
+        Number of points in the grid used for KDE and CDF estimation (default is 1000).
+
+    Returns
+    -------
+    cdf_values : np.ndarray
+        Array of CDF values for each element in `b`, based on the KDE of `a`.
+    """
+
+    # Fit KDE
+    kde = gaussian_kde(a, bw_method=0.5)
+
+    # Create a grid of x-values over a reasonable range
+    grid_x = np.linspace(min(a.min(), b.min()), max(a.max(), b.max()), num_points)
+    pdf = kde(grid_x)
+
+    # Approximate the CDF with cumulative sum
+    dx = grid_x[1] - grid_x[0]
+    cdf = np.cumsum(pdf) * dx
+
+    # Normalize to ensure max CDF is 1
+    cdf /= cdf[-1]
+
+    # Interpolate CDF values for b
+    cdf_values = np.interp(b, grid_x, cdf)
+
+    return cdf_values
+
+
 def robust_scorer(
-    data, inject_time=None, dataset=None, num_loop=None, sli=None, anomalies=None, **kwargs
+    data,
+    inject_time=None,
+    dataset=None,
+    num_loop=None,
+    sli=None,
+    anomalies=None,
+    **kwargs,
 ):
     """Perform root cause analysis using RobustScorer.
-    
+
     Parameters:
     - data : pandas.DataFrame
         The datas to perform RobustScorer.
@@ -205,11 +261,14 @@ def robust_scorer(
         List of anomalies. Default is None.
     - kwargs : dict
         Additional keyword arguments.
-        
+
     Returns:
     - dict
         A dictionary containing node names and ranks. `ranks` is a ranked list of root causes.
     """
+
+    data.fillna(0, inplace=True)
+
     if anomalies is None:
         normal_df = data[data["time"] < inject_time]
         anomal_df = data[data["time"] >= inject_time]
@@ -219,11 +278,15 @@ def robust_scorer(
         anomal_df = data.tail(len(data) - anomalies[0])
 
     normal_df = preprocess(
-        data=normal_df, dataset=dataset, dk_select_useful=kwargs.get("dk_select_useful", False)
+        data=normal_df,
+        dataset=dataset,
+        dk_select_useful=kwargs.get("dk_select_useful", False),
     )
 
     anomal_df = preprocess(
-        data=anomal_df, dataset=dataset, dk_select_useful=kwargs.get("dk_select_useful", False)
+        data=anomal_df,
+        dataset=dataset,
+        dk_select_useful=kwargs.get("dk_select_useful", False),
     )
 
     # intersect
@@ -237,9 +300,9 @@ def robust_scorer(
         a = normal_df[col].to_numpy()
         b = anomal_df[col].to_numpy()
 
-        scaler = RobustScaler().fit(a.reshape(-1, 1))
-        zscores = scaler.transform(b.reshape(-1, 1))[:, 0]
-        score = max(zscores)
+        cdf_scores = kde_cdf_fast(a, b)
+        score = np.mean(cdf_scores)
+
         ranks.append((col, score))
 
     ranks = sorted(ranks, key=lambda x: x[1], reverse=True)
@@ -249,5 +312,3 @@ def robust_scorer(
         "node_names": normal_df.columns.to_list(),
         "ranks": ranks,
     }
-
-
