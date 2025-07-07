@@ -95,8 +95,20 @@ def bocpd(data):
         if 'queue-master' in c or 'rabbitmq_' in c: continue
         if "latency" in c or "latency-50" in c or "_error" in c:
             selected_cols.append(c)
+    
     if selected_cols:
         data = data[selected_cols]
+    else:
+        # Warning: no latency or error columns found, use all time series
+        print("Warning: No latency or error columns found. Performing anomaly detection on all time series.")
+        # Remove time column if it exists, use all other columns
+        non_time_cols = [c for c in data.columns if c != 'time']
+        if non_time_cols:
+            data = data[non_time_cols]
+        else:
+            # If no non-time columns, we can't perform anomaly detection
+            print("Warning: No non-time columns found. Cannot perform anomaly detection.")
+            return []
 
     # handle na
     data = drop_constant(data)

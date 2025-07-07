@@ -67,6 +67,34 @@ def test_bocpd_basic():
     anomalies = bocpd(df)
     assert abs(anomalies[0] - 100) < 10, anomalies
 
+
+def test_bocpd_no_latency_error_cols():
+    """Test bocpd when no latency or error columns are present."""
+    time_col = np.arange(0, 200, 1)
+    normal_metric = np.random.normal(3, 1, 100)
+    normal_metric = np.clip(normal_metric, 1, 5)    
+    
+    abnormal_metric = np.random.normal(50, 1, 100)
+    metric = np.concatenate((normal_metric, abnormal_metric))
+    
+    # make df with no latency or error columns
+    df = pd.DataFrame({'time': time_col, 'cpu_usage': metric})
+    
+    # This should trigger the warning and still work
+    anomalies = bocpd(df)
+    assert len(anomalies) > 0, "Should still detect anomalies even without latency/error columns"
+    assert abs(anomalies[0] - 100) < 10, anomalies
+
+
+def test_bocpd_only_time_col():
+    """Test bocpd when only time column is present."""
+    time_col = np.arange(0, 100, 1)
+    df = pd.DataFrame({'time': time_col})
+    
+    # This should trigger warning and return empty list
+    anomalies = bocpd(df)
+    assert anomalies == [], "Should return empty list when no non-time columns"
+
 def test_baro():
     """Test BARO end-to-end"""
     local_path = tempfile.NamedTemporaryFile().name
