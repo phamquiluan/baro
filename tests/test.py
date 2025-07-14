@@ -70,6 +70,7 @@ def test_bocpd_basic():
 
 def test_bocpd_no_latency_error_cols():
     """Test bocpd when no latency or error columns are present."""
+    np.random.seed(0)
     time_col = np.arange(0, 200, 1)
     normal_metric = np.random.normal(3, 1, 100)
     normal_metric = np.clip(normal_metric, 1, 5)    
