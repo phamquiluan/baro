@@ -114,10 +114,28 @@ def bocpd(data):
     data = drop_constant(data)
     data = data.ffill()
     data = data.fillna(0)
+    
+    # normalize data, handling edge cases
     for c in data.columns:
-        data[c] = (data[c] - np.min(data[c])) / (np.max(data[c]) - np.min(data[c]))
+        col_min = np.min(data[c])
+        col_max = np.max(data[c])
+        col_range = col_max - col_min
+        
+        # Handle constant data (no variance)
+        if col_range == 0 or np.isnan(col_range):
+            # If all values are the same, set to 0
+            data[c] = 0
+        else:
+            # Normal normalization
+            data[c] = (data[c] - col_min) / col_range
+    
     data = data.ffill()
     data = data.fillna(0)
+    
+    # Check if we have any data left after preprocessing
+    if data.empty or data.shape[0] == 0:
+        warnings.warn("No data available after preprocessing. Cannot perform anomaly detection.")
+        return []
         
     data = data.to_numpy()
 

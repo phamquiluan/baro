@@ -63,6 +63,8 @@ def load_json(filename: str):
               
 def drop_constant(df: pd.DataFrame):
     """Drop constant columns from the DataFrame."""
+    if df.empty:
+        return df
     return df.loc[:, (df != df.iloc[0]).any()]
 
 
