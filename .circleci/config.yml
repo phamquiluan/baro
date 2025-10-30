@@ -12,6 +12,8 @@ executors:
 jobs:
   build-and-test:
     executor: my-executor
+    restore_cache:
+      key: baro-data-{{ checksum "main.py" }}
     steps:
       - checkout
       - run:
@@ -21,6 +23,10 @@ jobs:
           name: "Run test"
           command: pytest tests/test.py
           no_output_timeout: 3h
+    save_cache:
+      key: baro-data-{{ checksum "main.py" }}
+      paths:
+        - data
 
 workflows:
   main-flow:
