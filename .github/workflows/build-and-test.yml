@@ -20,6 +20,11 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+    - name: Cache data directory
+      uses: actions/cache@v3
+      with:
+        path: data
+        key: baro-data-${{ hashFiles('main.py') }}
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v3
       with:
@@ -42,6 +47,11 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+    - name: Cache data directory
+      uses: actions/cache@v3
+      with:
+        path: data
+        key: baro-data-${{ hashFiles('main.py') }}
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v3
       with:
