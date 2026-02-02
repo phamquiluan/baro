@@ -201,3 +201,5 @@ data
 env
 env*
 *.zip
+output
+rcaeval-data
