@@ -185,16 +185,71 @@ def nsigma(data, inject_time=None, dataset=None, num_loop=None, sli=None, anomal
     }
 
 
+def robust_scorer_dict(metrics: dict, inject_time: int) -> list:
+    """Fast RobustScorer for RCAEval JSON metrics format.
+
+    Directly processes metrics dict without DataFrame conversion.
+    Uses IQR-based scoring (same algorithm as sklearn RobustScaler).
+
+    Parameters:
+    - metrics : dict
+        Dictionary mapping metric names to time-series data.
+        Format: {"metric_name": [[timestamp, value], ...], ...}
+    - inject_time : int
+        Unix timestamp of fault injection.
+
+    Returns:
+    - list
+        List of (metric_name, score) tuples, sorted descending by score.
+    """
+    ranked_list = []
+
+    for metric_name, metric_data in metrics.items():
+        # Split by inject_time
+        pre_data = [float(v) for ts, v in metric_data if ts < inject_time]
+        post_data = [float(v) for ts, v in metric_data if ts >= inject_time]
+
+        # Skip metrics with insufficient pre-fault data or no post-fault data
+        if len(pre_data) < 4 or not post_data:
+            continue
+
+        # Calculate median and IQR from pre-fault data
+        pre_data = sorted(pre_data)
+        n = len(pre_data)
+        median = pre_data[n // 2]
+        q75 = pre_data[int(n * 0.75)]
+        q25 = pre_data[int(n * 0.25)]
+        iqr = q75 - q25
+
+        # Handle zero IQR (constant values)
+        if iqr == 0:
+            iqr = 1
+
+        # Score = max deviation in post-fault period normalized by IQR
+        max_val = max(post_data)
+        score = abs(max_val - median) / iqr
+        ranked_list.append((metric_name, score))
+
+    ranked_list.sort(key=lambda x: x[1], reverse=True)
+    return ranked_list
+
+
 def robust_scorer(
     data, inject_time=None, dataset=None, num_loop=None, sli=None, anomalies=None, **kwargs
 ):
     """Perform root cause analysis using RobustScorer.
-    
+
+    Supports both input formats:
+    - pd.DataFrame (FSE CSV format) - existing behavior with sklearn RobustScaler
+    - dict (RCAEval JSON format) - fast path via robust_scorer_dict()
+
     Parameters:
-    - data : pandas.DataFrame
-        The datas to perform RobustScorer.
+    - data : pandas.DataFrame or dict
+        The data to perform RobustScorer on.
+        If dict: metrics in format {"metric_name": [[ts, val], ...], ...}
+        If DataFrame: requires "time" column for splitting
     - inject_time : int, optional
-        The time of fault injection time. Default is None.
+        The time of fault injection. Required for dict input.
     - dataset : str, optional
         The dataset name. Default is None.
     - num_loop : int, optional
@@ -202,14 +257,31 @@ def robust_scorer(
     - sli : int, optional
         SLI (Service Level Indicator). Default is None. Just for future API compatible
     - anomalies : list, optional
-        List of anomalies. Default is None.
+        List of anomalies. Default is None. Only used for DataFrame input.
     - kwargs : dict
         Additional keyword arguments.
-        
+
     Returns:
     - dict
-        A dictionary containing node names and ranks. `ranks` is a ranked list of root causes.
+        A dictionary containing:
+        - node_names: list of metric names
+        - ranks: ranked list of root causes (metric names only)
+        - scores: list of (metric_name, score) tuples (only for dict input)
     """
+    # Auto-detect input format
+    if isinstance(data, dict):
+        # Fast path for JSON metrics (RCAEval format)
+        if inject_time is None:
+            raise ValueError("inject_time is required for dict input")
+
+        ranked = robust_scorer_dict(data, inject_time)
+        return {
+            "node_names": list(data.keys()),
+            "ranks": [m for m, _ in ranked],
+            "scores": ranked,
+        }
+
+    # Existing DataFrame path (FSE format)
     if anomalies is None:
         normal_df = data[data["time"] < inject_time]
         anomal_df = data[data["time"] >= inject_time]
