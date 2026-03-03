@@ -9,6 +9,7 @@ import os
 import re
 from pathlib import Path
 from typing import Iterator, List, Optional, Dict, Any
+import pandas as pd
 
 
 class DataLoader:
@@ -151,6 +152,54 @@ class DataLoader:
         with open(inject_time_file, "r") as f:
             return int(f.read().strip())
 
+    def _load_logs(self, dataset_path: Path) -> Optional[pd.DataFrame]:
+        """Load logs from logs.csv.
+
+        Args:
+            dataset_path: Path to dataset directory.
+
+        Returns:
+            DataFrame with columns: timestamp, container_name, message
+            None if file doesn't exist
+        """
+        logs_file = dataset_path / "logs.csv"
+        if not logs_file.exists():
+            return None
+
+        try:
+            df = pd.read_csv(logs_file)
+            required_cols = ['timestamp', 'container_name', 'message']
+            if not all(col in df.columns for col in required_cols):
+                return None
+            return df
+        except Exception as e:
+            print(f"Error loading logs from {dataset_path}: {e}")
+            return None
+
+    def _load_traces(self, dataset_path: Path) -> Optional[pd.DataFrame]:
+        """Load traces from traces.csv.
+
+        Args:
+            dataset_path: Path to dataset directory.
+
+        Returns:
+            DataFrame with trace span data
+            None if file doesn't exist (17/90 RE3 cases missing traces)
+        """
+        traces_file = dataset_path / "traces.csv"
+        if not traces_file.exists():
+            return None
+
+        try:
+            df = pd.read_csv(traces_file)
+            required_cols = ['serviceName', 'duration', 'startTimeMillis']
+            if not all(col in df.columns for col in required_cols):
+                return None
+            return df
+        except Exception as e:
+            print(f"Error loading traces from {dataset_path}: {e}")
+            return None
+
     @property
     def datasets(self) -> List[str]:
         """Get list of discovered datasets."""
@@ -169,6 +218,8 @@ class DataLoader:
             Dictionary for each dataset containing:
             - metrics: Dict[str, List[List[timestamp, value]]]
             - inject_time: int (Unix timestamp)
+            - logs: pd.DataFrame (optional, from logs.csv)
+            - traces: pd.DataFrame (optional, from traces.csv)
             - root_cause_service: str (ground truth)
             - dataset_id: str (e.g., "re1ss_carts_mem_4")
             - dataset_name: str (RE1/RE2/RE3)
@@ -182,6 +233,8 @@ class DataLoader:
             # Load data
             metrics = self._load_metrics(dataset_path)
             inject_time = self._load_inject_time(dataset_path)
+            logs = self._load_logs(dataset_path)
+            traces = self._load_traces(dataset_path)
 
             # Parse metadata
             metadata = self._parse_dataset_id(dataset_id)
@@ -190,6 +243,8 @@ class DataLoader:
                 "dataset_id": dataset_id,
                 "metrics": metrics,
                 "inject_time": inject_time,
+                "logs": logs,
+                "traces": traces,
                 **metadata,
             }
 
@@ -209,12 +264,16 @@ class DataLoader:
 
         metrics = self._load_metrics(dataset_path)
         inject_time = self._load_inject_time(dataset_path)
+        logs = self._load_logs(dataset_path)
+        traces = self._load_traces(dataset_path)
         metadata = self._parse_dataset_id(dataset_id)
 
         return {
             "dataset_id": dataset_id,
             "metrics": metrics,
             "inject_time": inject_time,
+            "logs": logs,
+            "traces": traces,
             **metadata,
         }
 
