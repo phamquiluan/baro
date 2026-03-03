@@ -29,6 +29,8 @@ from tqdm import tqdm
 
 from data_loader import DataLoader
 from baro.root_cause_analysis import robust_scorer, robust_scorer_dict
+from baro.context_builder import ContextBuilder
+from baro.llm_reranker import LLMReranker
 
 
 def save_results(
@@ -39,6 +41,7 @@ def save_results(
     elapsed_time: float,
     error_type: Optional[str] = None,
     error_message: Optional[str] = None,
+    llm_metadata: Optional[Dict] = None,
 ):
     """Save benchmark results to JSON file.
 
@@ -50,6 +53,7 @@ def save_results(
         elapsed_time: Execution time in seconds.
         error_type: Optional error type if method failed.
         error_message: Optional error message.
+        llm_metadata: Optional LLM metadata for BARO+ methods.
     """
     method_dir = output_dir / method
     method_dir.mkdir(parents=True, exist_ok=True)
@@ -68,6 +72,10 @@ def save_results(
         result_data["error_type"] = error_type
         result_data["error_message"] = error_message
         result_data["results"] = []
+
+    # Add LLM metadata for BARO+ methods
+    if llm_metadata is not None:
+        result_data["llm_metadata"] = llm_metadata
 
     with open(result_file, "w") as f:
         json.dump(result_data, f, indent=2)
@@ -132,9 +140,145 @@ def run_nsigma(metrics: Dict, inject_time: int) -> List[tuple]:
     return ranked_list
 
 
+def run_baro_plus(
+    metrics: Dict,
+    inject_time: int,
+    logs=None,
+    traces=None,
+    model: str = "gpt-4o",
+    k: int = 5,
+    modalities: str = "metrics+logs+traces"
+) -> tuple:
+    """
+    Run BARO+ (BARO + LLM re-ranking).
+
+    Args:
+        metrics: Dict of metric time-series
+        inject_time: Fault injection timestamp
+        logs: Logs DataFrame (optional)
+        traces: Traces DataFrame (optional)
+        model: LLM model identifier
+        k: Number of top candidates to re-rank
+        modalities: Which modalities to use (for ablation studies)
+
+    Returns:
+        Tuple of (scores_list, llm_metadata_dict)
+        - scores_list: List of (service_name, score) tuples (re-ranked)
+        - llm_metadata_dict: Dict with LLM metadata (tokens, reasoning, etc.)
+    """
+    # Stage 1: BARO statistical scoring
+    baro_result = robust_scorer(metrics, inject_time=inject_time)
+    ranked_metrics = baro_result.get("scores", [])
+
+    # Aggregate to service-level
+    ranked_services = ContextBuilder.aggregate_by_service(ranked_metrics)
+
+    if not ranked_services:
+        # No services found, return empty result
+        return [], {"error": "No services found in BARO ranking"}
+
+    # Extract top-k services
+    top_k = min(k, len(ranked_services))
+    top_k_services = [svc for svc, _ in ranked_services[:top_k]]
+
+    # Stage 2: Build contexts
+    metrics_context = ContextBuilder.build_metrics_context(
+        metrics, top_k_services, inject_time
+    )
+
+    logs_context = None
+    traces_context = None
+    if "logs" in modalities and logs is not None:
+        logs_context = ContextBuilder.build_logs_context(
+            logs, top_k_services, inject_time
+        )
+    if "traces" in modalities and traces is not None:
+        traces_context = ContextBuilder.build_traces_context(
+            traces, top_k_services, inject_time
+        )
+
+    # Stage 3: LLM re-ranking
+    try:
+        reranker = LLMReranker(model=model)
+        llm_result = reranker.rerank(
+            candidates=ranked_services[:top_k],
+            metrics_context=metrics_context,
+            logs_context=logs_context,
+            traces_context=traces_context,
+            inject_time=inject_time
+        )
+
+        # Return re-ranked list with rank-based scores
+        reranked_services = llm_result["ranking"]
+        scores = [(svc, top_k - i) for i, svc in enumerate(reranked_services)]
+
+        # Build metadata
+        metadata = {
+            "model": llm_result.get("model"),
+            "tokens_input": llm_result.get("tokens", {}).get("input"),
+            "tokens_output": llm_result.get("tokens", {}).get("output"),
+            "latency_ms": llm_result.get("latency_ms"),
+            "reasoning": llm_result.get("reasoning"),
+            "modalities_used": modalities.split("+"),
+            "error": llm_result.get("error")
+        }
+
+        return scores, metadata
+
+    except Exception as e:
+        # Fallback to original BARO ranking
+        print(f"Warning: BARO+ failed, falling back to BARO: {e}")
+        scores = ranked_services
+        metadata = {
+            "error": str(e),
+            "fallback": "original_baro_ranking"
+        }
+        return scores, metadata
+
+
 AVAILABLE_METHODS = {
     "baro": run_baro,
     "nsigma": run_nsigma,
+
+    # BARO+ variants (different LLM models)
+    "baro+gpt4o": lambda m, it, logs=None, traces=None:
+        run_baro_plus(m, it, logs, traces, model="gpt-4o", k=5),
+    "baro+claude": lambda m, it, logs=None, traces=None:
+        run_baro_plus(m, it, logs, traces, model="claude-3-5-sonnet", k=5),
+    "baro+gpt4o-mini": lambda m, it, logs=None, traces=None:
+        run_baro_plus(m, it, logs, traces, model="gpt-4o-mini", k=5),
+
+    # Claude CLI variants (uses `claude` command, no API key needed)
+    "baro+opus": lambda m, it, logs=None, traces=None:
+        run_baro_plus(m, it, logs, traces, model="claude-opus", k=5),
+    "baro+sonnet": lambda m, it, logs=None, traces=None:
+        run_baro_plus(m, it, logs, traces, model="claude-sonnet", k=5),
+    "baro+haiku": lambda m, it, logs=None, traces=None:
+        run_baro_plus(m, it, logs, traces, model="claude-haiku", k=5),
+
+    # Modality ablation variants (for RQ6)
+    "baro+gpt4o-m": lambda m, it, logs=None, traces=None:
+        run_baro_plus(m, it, logs, traces, model="gpt-4o", k=5, modalities="metrics"),
+    "baro+gpt4o-ml": lambda m, it, logs=None, traces=None:
+        run_baro_plus(m, it, logs, traces, model="gpt-4o", k=5, modalities="metrics+logs"),
+
+    # Claude 4.6 CLI variants
+    "baro+sonnet4.6": lambda m, it, logs=None, traces=None:
+        run_baro_plus(m, it, logs, traces, model="claude-sonnet4.6", k=5),
+    "baro+opus4.6": lambda m, it, logs=None, traces=None:
+        run_baro_plus(m, it, logs, traces, model="claude-opus4.6", k=5),
+
+    # Claude CLI modality ablation variants
+    "baro+sonnet-m": lambda m, it, logs=None, traces=None:
+        run_baro_plus(m, it, logs, traces, model="claude-sonnet", k=5, modalities="metrics"),
+    "baro+sonnet-ml": lambda m, it, logs=None, traces=None:
+        run_baro_plus(m, it, logs, traces, model="claude-sonnet", k=5, modalities="metrics+logs"),
+
+    # Claude 4.6 modality ablation variants
+    "baro+sonnet4.6-m": lambda m, it, logs=None, traces=None:
+        run_baro_plus(m, it, logs, traces, model="claude-sonnet4.6", k=5, modalities="metrics"),
+    "baro+sonnet4.6-ml": lambda m, it, logs=None, traces=None:
+        run_baro_plus(m, it, logs, traces, model="claude-sonnet4.6", k=5, modalities="metrics+logs"),
 }
 
 
@@ -255,6 +399,8 @@ Examples:
         dataset_id = item["dataset_id"]
         metrics = item["metrics"]
         inject_time = item["inject_time"]
+        logs = item.get("logs")
+        traces = item.get("traces")
         ground_truth = item["root_cause_service"]
 
         for method in methods:
@@ -269,10 +415,24 @@ Examples:
             try:
                 start_time = time.time()
                 method_func = AVAILABLE_METHODS[method]
-                results = method_func(metrics, inject_time)
+
+                # Pass logs/traces for BARO+ methods
+                if method.startswith("baro+"):
+                    result = method_func(metrics, inject_time, logs, traces)
+                    # BARO+ returns (scores, metadata)
+                    if isinstance(result, tuple) and len(result) == 2:
+                        results, llm_metadata = result
+                    else:
+                        results = result
+                        llm_metadata = None
+                else:
+                    results = method_func(metrics, inject_time)
+                    llm_metadata = None
+
                 elapsed_time = time.time() - start_time
 
-                save_results(output_dir, dataset_id, method, results, elapsed_time)
+                save_results(output_dir, dataset_id, method, results, elapsed_time,
+                           llm_metadata=llm_metadata)
                 stats[method]["success"] += 1
 
                 # Track for evaluation
