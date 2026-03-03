@@ -224,6 +224,142 @@ def export_csv(
     print(f"Results exported to {output_file}")
 
 
+def print_re3_table(all_results: Dict[str, List[Dict]]):
+    """Print RE3 results as a table with systems as merged columns.
+
+    Format:
+        Method  | Online Boutique          | Sock Shop                | Train Ticket
+                | AC@1  AC@3  AC@5  Avg@5  | AC@1  AC@3  AC@5  Avg@5 | AC@1  AC@3  AC@5  Avg@5
+    """
+    systems = [
+        ("OnlineBoutique", "Online Boutique"),
+        ("SockShop", "Sock Shop"),
+        ("TrainTicket", "Train Ticket"),
+    ]
+    metrics = ["top1", "top3", "top5", "avg5"]
+    sub_headers = ["AC@1", "AC@3", "AC@5", "Avg@5"]
+    col_w = 6  # width per metric column
+    sys_w = col_w * len(metrics) + 3  # per-system block width
+
+    # Compute per-method, per-system aggregates
+    table_data = {}
+    for method, results in all_results.items():
+        re3 = [r for r in results if r.get("benchmark") == "RE3"]
+        table_data[method] = {}
+        for sys_key, _ in systems:
+            group = [r for r in re3 if r.get("system") == sys_key]
+            if group:
+                table_data[method][sys_key] = {
+                    m: sum(r[m] for r in group) / len(group) for m in metrics
+                }
+                table_data[method][sys_key]["n"] = len(group)
+            else:
+                table_data[method][sys_key] = {m: 0.0 for m in metrics}
+                table_data[method][sys_key]["n"] = 0
+
+    # Print header
+    method_w = max(len(m) for m in all_results) + 1
+    method_w = max(method_w, 8)
+
+    header1 = f"{'Method':<{method_w}}"
+    header2 = f"{'':<{method_w}}"
+    for _, display in systems:
+        header1 += f" | {display:^{sys_w - 3}}"
+        header2 += f" | " + " ".join(f"{h:>{col_w}}" for h in sub_headers)
+
+    print()
+    print(header1)
+    print(header2)
+    print("-" * len(header2))
+
+    # Print rows
+    for method in all_results:
+        row = f"{method:<{method_w}}"
+        for sys_key, _ in systems:
+            vals = table_data[method][sys_key]
+            row += " | " + " ".join(f"{vals[m]:>{col_w}.3f}" for m in metrics)
+        print(row)
+
+    print("-" * len(header2))
+    print()
+
+
+def export_re3_latex(all_results: Dict[str, List[Dict]], output_file: Path):
+    """Export RE3 results to LaTeX table with systems as merged columns.
+
+    Format: Method | OB (AC@1 AC@3 AC@5 Avg@5) | SS (...) | TT (...)
+    """
+    systems = [
+        ("OnlineBoutique", "Online Boutique"),
+        ("SockShop", "Sock Shop"),
+        ("TrainTicket", "Train Ticket"),
+    ]
+    metrics = ["top1", "top3", "top5", "avg5"]
+    sub_headers = ["AC@1", "AC@3", "AC@5", "Avg@5"]
+
+    # Compute aggregates
+    table_data = {}
+    for method, results in all_results.items():
+        re3 = [r for r in results if r.get("benchmark") == "RE3"]
+        table_data[method] = {}
+        for sys_key, _ in systems:
+            group = [r for r in re3 if r.get("system") == sys_key]
+            if group:
+                table_data[method][sys_key] = {
+                    m: sum(r[m] for r in group) / len(group) for m in metrics
+                }
+            else:
+                table_data[method][sys_key] = {m: 0.0 for m in metrics}
+
+    n_sys = len(systems)
+    n_sub = len(metrics)
+    col_spec = "l" + ("|" + "c" * n_sub) * n_sys
+
+    with open(output_file, "w") as f:
+        f.write("\\begin{table}[htbp]\n")
+        f.write("\\centering\n")
+        f.write("\\caption{Root Cause Analysis Results on RCAEval RE3 Benchmark}\n")
+        f.write("\\label{tab:re3-results}\n")
+        f.write(f"\\begin{{tabular}}{{{col_spec}}}\n")
+        f.write("\\toprule\n")
+
+        # Merged system headers
+        f.write("Method")
+        for i, (_, display) in enumerate(systems):
+            f.write(f" & \\multicolumn{{{n_sub}}}{{c}}{{{display}}}")
+        f.write(" \\\\\n")
+
+        # Cmidrules
+        for i in range(n_sys):
+            start = 2 + i * n_sub
+            end = start + n_sub - 1
+            f.write(f"\\cmidrule(lr){{{start}-{end}}}")
+        f.write("\n")
+
+        # Sub-headers
+        f.write("")
+        for _ in systems:
+            for h in sub_headers:
+                f.write(f" & {h}")
+        f.write(" \\\\\n")
+        f.write("\\midrule\n")
+
+        # Data rows
+        for method in all_results:
+            f.write(method.upper())
+            for sys_key, _ in systems:
+                vals = table_data[method][sys_key]
+                for m in metrics:
+                    f.write(f" & {vals[m]:.3f}")
+            f.write(" \\\\\n")
+
+        f.write("\\bottomrule\n")
+        f.write("\\end{tabular}\n")
+        f.write("\\end{table}\n")
+
+    print(f"RE3 LaTeX table exported to {output_file}")
+
+
 def export_latex(
     all_results: Dict[str, List[Dict]],
     output_file: Path,
@@ -338,6 +474,11 @@ def main():
         default=None,
         help="Export results to LaTeX table",
     )
+    parser.add_argument(
+        "--re3-table",
+        action="store_true",
+        help="Print RE3 results table (systems as columns, methods as rows)",
+    )
 
     args = parser.parse_args()
 
@@ -365,6 +506,10 @@ def main():
         methods = available_methods
 
     print(f"Evaluating methods: {methods}")
+
+    # Auto-filter to RE3 when --re3-table is used
+    if args.re3_table and not args.filter:
+        args.filter = "re3"
 
     # Load ground truth from data loader
     filter_patterns = None
@@ -410,6 +555,15 @@ def main():
             })
 
         all_results[method] = results
+
+    # RE3 table mode
+    if args.re3_table:
+        print_re3_table(all_results)
+        if args.latex:
+            export_re3_latex(all_results, Path(args.latex))
+        if args.csv:
+            export_csv(all_results, Path(args.csv))
+        return
 
     # Determine grouping
     group_by = None
