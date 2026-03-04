@@ -2,7 +2,7 @@
 LLM Re-ranker for BARO+
 
 This module implements the LLM-based re-ranking on top of BARO's statistical scoring.
-Supports multiple LLM providers (OpenAI, Anthropic, Claude CLI) with graceful error handling.
+Supports multiple LLM providers (OpenAI, Anthropic, Claude CLI, Gemini/Vertex AI) with graceful error handling.
 """
 
 import os
@@ -17,6 +17,7 @@ import logging
 # LLM API clients (imported lazily to handle missing packages)
 OPENAI_AVAILABLE = False
 ANTHROPIC_AVAILABLE = False
+GENAI_AVAILABLE = False
 
 try:
     import openai
@@ -30,6 +31,12 @@ try:
 except ImportError:
     pass
 
+try:
+    from google import genai
+    GENAI_AVAILABLE = True
+except ImportError:
+    pass
+
 
 logger = logging.getLogger(__name__)
 
@@ -39,9 +46,10 @@ class LLMReranker:
     LLM-based re-ranker for root cause candidates.
 
     Supports multiple models:
-    - OpenAI: gpt-4o, gpt-4o-mini
+    - OpenAI: gpt-4o, gpt-4o-mini, gpt-5.2, gpt-5-mini, gpt-5-nano, gpt-4.1, o4-mini
     - Anthropic API: claude-3-5-sonnet-20241022
     - Claude CLI: claude-opus-4-5, claude-sonnet-4-5, claude-haiku-4-5, claude-sonnet-4-6, claude-opus-4-6
+    - Vertex AI (Gemini): gemini-2.5-pro, gemini-2.5-flash, gemini-2.5-flash-lite
     """
 
     # Model configurations
@@ -96,6 +104,61 @@ class LLMReranker:
             "max_tokens": 1000,
             "temperature": 0.0
         },
+        # OpenAI models (Phase B)
+        "gpt-5.2": {
+            "provider": "openai",
+            "model_id": "gpt-5.2",
+            "max_tokens": 1000,
+            "temperature": 0.0
+        },
+        "gpt-5-mini": {
+            "provider": "openai",
+            "model_id": "gpt-5-mini",
+            "max_tokens": 1000,
+            "temperature": 0.0
+        },
+        "gpt-5-nano": {
+            "provider": "openai",
+            "model_id": "gpt-5-nano",
+            "max_tokens": 1000,
+            "temperature": 0.0,
+            "reasoning_model": True
+        },
+        "gpt-4.1": {
+            "provider": "openai",
+            "model_id": "gpt-4.1",
+            "max_tokens": 1000,
+            "temperature": 0.0
+        },
+        "o4-mini": {
+            "provider": "openai",
+            "model_id": "o4-mini",
+            "max_tokens": 8192,
+            "temperature": 0.0,
+            "reasoning_model": True
+        },
+        # Gemini models via Vertex AI (google-genai SDK)
+        # Note: max_tokens set to 8192 because Gemini 2.5 thinking tokens
+        # count against max_output_tokens. With 1000, thinking consumes the
+        # budget and the JSON response gets truncated.
+        "gemini-2.5-pro": {
+            "provider": "vertexai",
+            "model_id": "gemini-2.5-pro",
+            "max_tokens": 8192,
+            "temperature": 0.0
+        },
+        "gemini-2.5-flash": {
+            "provider": "vertexai",
+            "model_id": "gemini-2.5-flash",
+            "max_tokens": 8192,
+            "temperature": 0.0
+        },
+        "gemini-2.5-flash-lite": {
+            "provider": "vertexai",
+            "model_id": "gemini-2.5-flash-lite",
+            "max_tokens": 8192,
+            "temperature": 0.0
+        },
     }
 
     def __init__(self, model: str = "gpt-4o", api_key: Optional[str] = None):
@@ -122,6 +185,13 @@ class LLMReranker:
             if not self.claude_path:
                 raise ValueError("'claude' CLI not found on PATH. Install Claude Code first.")
             self.client = None
+
+        elif self.provider == "vertexai":
+            if not GENAI_AVAILABLE:
+                raise ValueError("google-genai package not installed. Run: pip install google-genai")
+            project = os.getenv("GOOGLE_CLOUD_PROJECT", "rmit-icm")
+            location = os.getenv("GOOGLE_CLOUD_LOCATION", "us-central1")
+            self.client = genai.Client(vertexai=True, project=project, location=location)
 
         elif self.provider == "openai":
             if not OPENAI_AVAILABLE:
@@ -368,14 +438,21 @@ Ensure all service names in the ranking match exactly the candidate names provid
                 if self.provider == "claude-cli":
                     return self._call_claude_cli(prompt)
 
+                elif self.provider == "vertexai":
+                    return self._call_vertexai(prompt)
+
                 elif self.provider == "openai":
-                    response = self.client.chat.completions.create(
-                        model=self.config["model_id"],
-                        messages=[{"role": "user", "content": prompt}],
-                        temperature=self.config["temperature"],
-                        max_tokens=self.config["max_tokens"],
-                        timeout=30.0
-                    )
+                    kwargs = {
+                        "model": self.config["model_id"],
+                        "messages": [{"role": "user", "content": prompt}],
+                        "max_completion_tokens": self.config["max_tokens"],
+                        "timeout": 60.0,
+                    }
+                    # Reasoning models (o4-mini, etc.) don't support temperature
+                    if not self.config.get("reasoning_model"):
+                        kwargs["temperature"] = self.config["temperature"]
+
+                    response = self.client.chat.completions.create(**kwargs)
 
                     return {
                         "content": response.choices[0].message.content,
@@ -477,6 +554,38 @@ Ensure all service names in the ranking match exactly the candidate names provid
             "tokens": tokens
         }
 
+    def _call_vertexai(self, prompt: str) -> Dict:
+        """
+        Call Gemini via the google-genai SDK (Vertex AI backend).
+
+        Args:
+            prompt: The prompt to send
+
+        Returns:
+            Dict with "content" and "tokens" keys
+        """
+        response = self.client.models.generate_content(
+            model=self.config["model_id"],
+            contents=prompt,
+            config={
+                "temperature": self.config["temperature"],
+                "max_output_tokens": self.config["max_tokens"],
+            },
+        )
+
+        content = response.text or ""
+        tokens = {}
+        if response.usage_metadata:
+            tokens = {
+                "input": response.usage_metadata.prompt_token_count or 0,
+                "output": response.usage_metadata.candidates_token_count or 0,
+            }
+
+        return {
+            "content": content,
+            "tokens": tokens
+        }
+
     def _parse_response(self, response: Dict, candidates: List[Tuple[str, float]]) -> Dict:
         """
         Extract ranking and reasoning from LLM response.
@@ -498,11 +607,13 @@ Ensure all service names in the ranking match exactly the candidate names provid
         # Try JSON parsing first
         try:
             # Extract JSON from markdown code blocks if present
-            json_match = re.search(r'```(?:json)?\s*(\{.*?\})\s*```', content, re.DOTALL)
+            json_match = re.search(r'```(?:json)?\s*(\{.*\})\s*```', content, re.DOTALL)
             if json_match:
                 json_str = json_match.group(1)
             else:
-                json_str = content
+                # Try to find a JSON object in the raw content
+                brace_match = re.search(r'\{.*\}', content, re.DOTALL)
+                json_str = brace_match.group(0) if brace_match else content
 
             parsed = json.loads(json_str)
 
