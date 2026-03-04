@@ -279,6 +279,26 @@ AVAILABLE_METHODS = {
         run_baro_plus(m, it, logs, traces, model="claude-sonnet4.6", k=5, modalities="metrics"),
     "baro+sonnet4.6-ml": lambda m, it, logs=None, traces=None:
         run_baro_plus(m, it, logs, traces, model="claude-sonnet4.6", k=5, modalities="metrics+logs"),
+
+    # OpenAI models (Phase B)
+    "baro+gpt5.2": lambda m, it, logs=None, traces=None:
+        run_baro_plus(m, it, logs, traces, model="gpt-5.2", k=5),
+    "baro+gpt5-mini": lambda m, it, logs=None, traces=None:
+        run_baro_plus(m, it, logs, traces, model="gpt-5-mini", k=5),
+    "baro+gpt5-nano": lambda m, it, logs=None, traces=None:
+        run_baro_plus(m, it, logs, traces, model="gpt-5-nano", k=5),
+    "baro+gpt4.1": lambda m, it, logs=None, traces=None:
+        run_baro_plus(m, it, logs, traces, model="gpt-4.1", k=5),
+    "baro+o4-mini": lambda m, it, logs=None, traces=None:
+        run_baro_plus(m, it, logs, traces, model="o4-mini", k=5),
+
+    # Gemini CLI models (Phase B)
+    "baro+gemini-pro": lambda m, it, logs=None, traces=None:
+        run_baro_plus(m, it, logs, traces, model="gemini-2.5-pro", k=5),
+    "baro+gemini-flash": lambda m, it, logs=None, traces=None:
+        run_baro_plus(m, it, logs, traces, model="gemini-2.5-flash", k=5),
+    "baro+gemini-flash-lite": lambda m, it, logs=None, traces=None:
+        run_baro_plus(m, it, logs, traces, model="gemini-2.5-flash-lite", k=5),
 }
 
 
